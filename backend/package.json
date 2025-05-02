@@ -1,0 +1,40 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "backend for grocerry assignment, using Node, Express, SQL, graphql",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev":"nodemon script.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hadiahmed1/grocery.git"
+  },
+  "keywords": [
+    "grocery",
+    "ts",
+    "node",
+    "express",
+    "sql",
+    "graphql"
+  ],
+  "author": "hadi ahmed",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hadiahmed1/grocery/issues"
+  },
+  "homepage": "https://github.com/hadiahmed1/grocery#readme",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
