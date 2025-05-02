@@ -2,11 +2,11 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "backend for grocerry assignment, using Node, Express, SQL, graphql",
-  "main": "server.js",
+  "main": "server.ts",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev":"nodemon script.js"
+    "dev": "nodemon --ext ts --exec tsx ./script.ts"
   },
   "repository": {
     "type": "git",
@@ -35,6 +35,14 @@
     "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "@types/cookie-parser": "^1.4.8",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.15.3",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
   }
 }
