@@ -1,6 +1,6 @@
 import "dotenv/config";
 import app from "./src/config/expressConfig";
-import {getUsers, insertUser} from './src/service/users'
+import {getUserById, getUsers, insertUser} from './src/service/users'
 import { NewUser } from "./src/types/user.type";
 
 app.get('/', (req, res) => {
@@ -8,11 +8,16 @@ app.get('/', (req, res) => {
 });
 
 const newUser: NewUser ={
-    username: "hadi",
-    email: "email@gmail.com",
-    phno: "5638748",
+    username: "qadir ahmed",
+    email: "qadir@gmail.com",
+    phno: "5633438",
     user_password: "pass"
 }
 await insertUser(newUser);
 
-console.log(await getUsers())
+
+const users=await getUsers();
+
+users.forEach(async user => {
+    console.log(await getUserById(user.id))
+});
