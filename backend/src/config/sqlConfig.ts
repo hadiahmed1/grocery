@@ -11,4 +11,4 @@ const dbConnection = async ():Promise<Connection> => {
     return conn;
 }
 
-export default dbConnection();
+export default await dbConnection();

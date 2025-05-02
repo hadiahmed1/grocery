@@ -10,3 +10,12 @@ export default interface User {
     updated_at: Date;
     deleted_at: Date | null;
 }
+
+export interface NewUser {
+    username: string;
+    email: string;
+    phno: string;
+    user_password: string;
+    address_id?: Buffer | null;   // optional
+    isVerified?: boolean | 0 | 1; // optional
+}

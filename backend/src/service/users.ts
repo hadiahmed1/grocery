@@ -1,8 +1,8 @@
 import dbConnection from "../config/sqlConfig";
-import User from "../types/user.type"
+import User, { NewUser } from "../types/user.type"
 export const getUsers = async (): Promise<User[]> => {
     try {
-        const [results] = await (await dbConnection).query(
+        const [results] = await dbConnection.query(
             'SELECT * FROM `users`'
         );
         return results as User[];
@@ -11,3 +11,38 @@ export const getUsers = async (): Promise<User[]> => {
         return [];
     }
 }
+
+
+export const insertUser = async (user: NewUser): Promise<void> => {
+    const query = `
+      INSERT INTO users (
+        username,
+        email,
+        phno,
+        user_password,
+        address_id
+      ) VALUES (?, ?, ?, ?, ?);
+    `;
+
+    const {
+        username,
+        email,
+        phno,
+        user_password,
+        address_id = null
+    } = user;
+try {
+    await dbConnection.query(query, [
+        username,
+        email,
+        phno,
+        user_password,
+        address_id
+    ]);
+} catch (error) {
+    console.log("Error while inserting User");
+    console.log(error);
+}
+};
+
+
