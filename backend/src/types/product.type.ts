@@ -18,4 +18,15 @@ export default interface Product {
     uid: string;
 }
 
-
+export interface NewProduct {
+    seller_id: Buffer;
+    name: string;
+    mrp: number;
+    discount_percent?: number;
+    quantity?: number;
+    unit?: 'piece' | 'units' | 'kg' | 'g' | 'mg' | 'lb' | 'ml' | 'l';
+    photo?: string | null;
+    description?: string | null;
+    stock?: number;
+    address_id?: Buffer | null;
+}
