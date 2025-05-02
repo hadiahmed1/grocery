@@ -1,5 +1,6 @@
 import dbConnection from "../config/sqlConfig";
-import User, { NewUser } from "../types/user.type"
+import User, { NewUser } from "../types/user.type";
+
 export const getUsers = async (): Promise<User[]> => {
     try {
         const [results] = await dbConnection.query(
