@@ -1,17 +1,14 @@
-import mysql, { ConnectionOptions, RowDataPacket } from 'mysql2';
-import { Connection } from 'mysql2/typings/mysql/lib/Connection';
+import mysql, { ConnectionOptions, Connection } from 'mysql2/promise';
 
-const dbConnection = (): Connection => {
+const dbConnection = async ():Promise<Connection> => {
     const access: ConnectionOptions = {
         user: 'grocery',
-        password: 'grocery',
-        database: process.env.DB_PASSWORD,
+        password: process.env.DB_PASSWORD,
+        database: 'groceryDB',
     };
 
-    const conn = mysql.createConnection(access);
-    console.log("Connection:>>", conn);
-
+    const conn = await mysql.createConnection(access);
     return conn;
 }
 
-export default dbConnection;
+export default dbConnection();
