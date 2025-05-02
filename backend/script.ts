@@ -7,13 +7,14 @@ app.get('/', (req, res) => {
     res.send('Hello World! TS')
 });
 
-// const newUser: NewUser ={
-//     username: "qadir ahmed",
-//     email: "qadir@gmail.com",
-//     phno: "5633438",
-//     user_password: "pass"
-// }
-// await insertUser(newUser);
+const newUser: NewUser ={
+    username:"blink",
+    email: "blink@gmail.com",
+    phno: "5378468",
+    user_password: "pass",
+    role: 'seller'
+}
+await insertUser(newUser);
 
 
 const users=await getUsers();

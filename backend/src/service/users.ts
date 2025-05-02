@@ -19,8 +19,9 @@ export const insertUser = async (user: NewUser): Promise<void> => {
         email,
         phno,
         user_password,
-        address_id
-      ) VALUES (?, ?, ?, ?, ?);
+        address_id,
+        role
+      ) VALUES (?, ?, ?, ?, ?, ?);
     `;
 
     const {
@@ -28,7 +29,8 @@ export const insertUser = async (user: NewUser): Promise<void> => {
         email,
         phno,
         user_password,
-        address_id = null
+        address_id = null,
+        role='user'
     } = user;
     try {
         await dbConnection.query(query, [
@@ -36,7 +38,8 @@ export const insertUser = async (user: NewUser): Promise<void> => {
             email,
             phno,
             user_password,
-            address_id
+            address_id,
+            role
         ]);
     } catch (error) {
         console.log("Error while inserting User");
@@ -46,7 +49,6 @@ export const insertUser = async (user: NewUser): Promise<void> => {
 
 export const getUserById = async (id: Buffer): Promise<User | null> => {
     try {
-        console.log("\n\n User id =", id)
         const query = 'SELECT *,BIN_TO_UUID(id) as uid FROM `users` WHERE id=?';
         const [results] = await dbConnection.query(query, [id]);
         if (Array.isArray(results) && results.length > 0) {
@@ -61,10 +63,9 @@ export const getUserById = async (id: Buffer): Promise<User | null> => {
 
 export const verifyUser = async (id: Buffer): Promise<void> => {
     try {
-        console.log("\n\n User id =", id)
         const query = 'UPDATE `users` SET isVerified=1 WHERE id=?';
         const [results] = await dbConnection.query(query, [id]);
-        console.log(results)
+        if(results?.affectedRows ===0) throw new Error("Couldn't update: No users with ID "+id);
     } catch (err) {
         console.log(err);
     }
