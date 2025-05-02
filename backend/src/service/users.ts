@@ -58,3 +58,14 @@ export const getUserById = async (id: Buffer): Promise<User | null> => {
         return null;
     }
 }
+
+export const verifyUser = async (id: Buffer): Promise<void> => {
+    try {
+        console.log("\n\n User id =", id)
+        const query = 'UPDATE `users` SET isVerified=1 WHERE id=?';
+        const [results] = await dbConnection.query(query, [id]);
+        console.log(results)
+    } catch (err) {
+        console.log(err);
+    }
+}
