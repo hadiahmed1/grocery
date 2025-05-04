@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon --ext ts --exec tsx ./script.ts",
-    "test": "nodemon --ext ts --exec tsx ./test.ts"
+    "test": "nodemon --ext ts --exec tsx ./test.ts",
+    "lint": "eslint . --ext .ts,.tsx,.js"
   },
   "repository": {
     "type": "git",
@@ -36,14 +37,19 @@
     "mysql2": "^3.14.1"
   },
   "devDependencies": {
+    "@eslint/js": "^9.26.0",
     "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",
+    "@types/estree": "^1.0.7",
     "@types/express": "^5.0.1",
     "@types/node": "^22.15.3",
+    "eslint": "^9.26.0",
+    "globals": "^16.0.0",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "tsx": "^4.19.4",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.31.1"
   }
 }
