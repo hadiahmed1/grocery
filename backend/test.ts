@@ -1,6 +1,6 @@
 import 'dotenv/config';
-import {getUsers} from './src/service/users';
+import {findUserByEmail} from './src/service/users';
 
-const users = await getUsers();
+const users = await findUserByEmail('qjhvla@gmail.com')
 
 console.log(users);

@@ -1,14 +1,12 @@
 import nodemailer from 'nodemailer'
 import generateToken from './generateToken';
-
 import hbs from "nodemailer-express-handlebars";
-
 
 const sendEmail = (emailID: string, userId: string) => {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: "hadi@itobuz.com",
+            user: "hadiahmed0112@gmail.com",
             pass: process.env.EMAIL_PASSWORD
         }
     });
@@ -25,8 +23,8 @@ const sendEmail = (emailID: string, userId: string) => {
     const registerToken = generateToken('registrationToken', userId, '15m');
 
     const mailConfigurations = {
-        from: 'hadi@itobuz.com',
-        to: `${emailID}`,//replace with ${emailID}
+        from: 'hadiahmed0112@gmail.com',
+        to: `${emailID}`,
         subject: `Email Verification: ${emailID}`,
         template: 'verificationEmail',
         context: {
@@ -35,7 +33,9 @@ const sendEmail = (emailID: string, userId: string) => {
     };
 
     transporter.sendMail(mailConfigurations, function (error) {
-        if (error) throw Error();
+        if (error){
+            console.log(error);
+        }
         console.log('Email Sent Successfully');
     });
 }
