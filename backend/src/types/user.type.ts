@@ -1,4 +1,4 @@
-export default interface User {
+export default interface UserType {
     id: Buffer;
     username: string;
     email: string;
@@ -12,10 +12,10 @@ export default interface User {
     deleted_at: Date | null;
 }
 
-export interface NewUser {
+export interface NewUserType {
     username: string;
     email: string;
-    phno: string;
+    phno?: string;
     user_password: string;
     address_id?: Buffer | null;   // optional
     isVerified?: boolean | 0 | 1; // optional

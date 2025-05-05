@@ -1,6 +1,6 @@
 import { Buffer } from 'buffer';
 
-export default interface Product {
+export default interface ProductType {
     id: Buffer;
     seller_id: Buffer;
     name: string;
@@ -18,7 +18,7 @@ export default interface Product {
     uid: string;
 }
 
-export interface NewProduct {
+export interface NewProductType {
     seller_id: Buffer;
     name: string;
     mrp: number;
