@@ -20,7 +20,7 @@ const sendEmail = (emailID: string, userId: string) => {
         viewPath: './src/views',
         extName: '.hbs'
     }));
-    const registerToken = generateToken('registrationToken', userId, '15m');
+    const registerToken = generateToken('verificationToken', userId, '15m');
 
     const mailConfigurations = {
         from: 'hadiahmed0112@gmail.com',
