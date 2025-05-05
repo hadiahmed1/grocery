@@ -1,23 +1,14 @@
-export default interface UserType {
-    id: Buffer;
-    username: string;
-    email: string;
-    phno: string;
-    user_password: string;
-    isVerified: boolean | 0 | 1;
-    address_id: Buffer | null;
-    role: 'user'|'seller';
-    created_at: Date;
-    updated_at: Date;
-    deleted_at: Date | null;
-}
-
-export interface NewUserType {
+export interface UserAttributes {
+    id: string;
     username: string;
     email: string;
     phno?: string;
     user_password: string;
-    address_id?: Buffer | null;   // optional
-    isVerified?: boolean | 0 | 1; // optional
-    role?: 'seller'
+    isVerified?: boolean;
+    address_id?: string | null;
+    deletedAt?: Date | null;
+    createdAt?: Date;
+    updateTimestamp?: Date;
 }
+
+export type UserCreationAttributes = Omit<UserAttributes, 'id' | 'createdAt' | 'updateTimestamp'>;

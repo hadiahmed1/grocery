@@ -1,21 +1,18 @@
 import dbConnection from "../config/sqlConfig";
-import sequelize from '../config/sqlConfig';
 import User from "../models/user.model";
-import UserType, { NewUserType } from "../types/user.type";
+import { UserAttributes, UserCreationAttributes } from "../types/user.type";
 
-export const getUsers = async (): Promise<UserType[]> => {
+export const getUsers = async (): Promise<UserAttributes[]> => {
     try {
-        const [results] = await dbConnection.query(
-            'SELECT *,BIN_TO_UUID(id) as uid FROM `users`'
-        );
-        return results as UserType[];
+        const users = await User.findAll();
+        return users;
     } catch (err) {
         console.log(err);
         return [];
     }
 }
 
-export const insertUser = async (newUser: NewUserType): Promise<void> => {
+export const insertUser = async (newUser: UserCreationAttributes): Promise<void> => {
     try {
         const user = User.build(newUser);
         await user.save();
@@ -24,12 +21,12 @@ export const insertUser = async (newUser: NewUserType): Promise<void> => {
     }
 }
 
-export const getUserById = async (id: Buffer): Promise<UserType | null> => {
+export const getUserById = async (id: Buffer): Promise<UserAttributes | null> => {
     try {
         const query = 'SELECT *,BIN_TO_UUID(id) as uid FROM `users` WHERE id=?';
         const [results] = await dbConnection.query(query, [id]);
         if (Array.isArray(results) && results.length > 0) {
-            return results[0] as UserType;
+            return results[0] as UserAttributes;
         }
         return null;
     } catch (err) {

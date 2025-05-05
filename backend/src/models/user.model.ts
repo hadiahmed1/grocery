@@ -1,8 +1,22 @@
-// models/User.ts
-import { DataTypes, UUIDV4 } from 'sequelize';
+// models/user.model.ts
+import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../config/sequelizeConfig';
+import { UserAttributes, UserCreationAttributes } from '../types/user.type';
 
-const User = sequelize.define('User', {
+class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
+  public id!: string;
+  public username!: string;
+  public email!: string;
+  public phno?: string;
+  public user_password!: string;
+  public isVerified?: boolean;
+  public address_id?: string | null;
+  public deletedAt?: Date | null;
+  public readonly createdAt!: Date;
+  public readonly updateTimestamp!: Date;
+}
+
+User.init({
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
@@ -10,38 +24,39 @@ const User = sequelize.define('User', {
   },
   username: {
     type: DataTypes.STRING(50),
-    allowNull: false
+    allowNull: false,
   },
   email: {
     type: DataTypes.STRING(320),
     allowNull: false,
-    unique: true
+    unique: true,
   },
   phno: {
     type: DataTypes.STRING(15),
     allowNull: true,
-    unique: true
+    unique: true,
   },
   user_password: {
     type: DataTypes.STRING(100),
-    allowNull: false
+    allowNull: false,
   },
   isVerified: {
     type: DataTypes.BOOLEAN,
-    defaultValue: false
+    defaultValue: false,
   },
   address_id: {
-    type: DataTypes.UUID, // FK to Address
-    allowNull: true
+    type: DataTypes.UUID,
+    allowNull: true,
   },
-  deletedAt : {
+  deletedAt: {
     type: DataTypes.DATE,
     allowNull: true,
   }
 }, {
+  sequelize,
   tableName: 'users',
   timestamps: true,
-  updatedAt: 'updateTimestamp'
+  updatedAt: 'updateTimestamp',
 });
 
 export default User;
