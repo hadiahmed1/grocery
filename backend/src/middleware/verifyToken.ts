@@ -10,7 +10,7 @@ const verifyToken = async (token: string, type: 'accessToken' | 'verificationTok
         const decoded = jwt.verify(token, process.env.SECRET_KEY as string) as TokenPayloadType;
         if (decoded.type !== type) throw new ApiError(401, "Invalid Token Type");
         const user = await User.findByPk(decoded.id, {
-            attributes: ['id', 'username', 'email', 'phno', 'isVerified', 'address_id', 'createdAt', 'deletedAt', 'updatedAt']
+            attributes: ['id', 'username', 'email', 'phno', 'isVerified', 'role', 'address_id', 'createdAt', 'deletedAt', 'updatedAt']
         }
         );
         if (!user) throw new ApiError(400, "User not found");
@@ -40,7 +40,7 @@ export const verifySeller = asyncHandler(async (req: Request, Response: Response
     const token = req.cookies?.accessToken;
     if (!token) throw new ApiError(401, "No token: Unauthorized");
     const user = await verifyToken(token, 'accessToken');
-
+    console.log()
     if (user.dataValues.role !== 'seller') throw new ApiError(401, "Not seller");
 
     (req as any).user = user.dataValues;
