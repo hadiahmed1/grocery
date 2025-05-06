@@ -1,10 +1,9 @@
-// models/Address.ts
 import { DataTypes } from 'sequelize';
-import sequelize from '../config/sequelizeConfig'; // your Sequelize instance
+import sequelize from '../config/sequelizeConfig'; 
 
 const Address = sequelize.define('Address', {
   id: {
-    type: DataTypes.BLOB('medium'), // BINARY(16)
+    type: DataTypes.BLOB('medium'), 
     primaryKey: true,
     allowNull: false
   },
