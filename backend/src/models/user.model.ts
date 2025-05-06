@@ -60,7 +60,6 @@ User.init({
   sequelize,
   tableName: 'users',
   timestamps: true,
-  updatedAt: 'updateTimestamp',
 });
 
 export default User;
