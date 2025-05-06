@@ -35,3 +35,14 @@ export const verifyAccessToken = asyncHandler(async (req: Request, Response: Res
     (req as any).user = user.dataValues;
     next();
 });
+
+export const verifySeller = asyncHandler(async (req: Request, Response: Response, next: NextFunction) => {
+    const token = req.cookies?.accessToken;
+    if (!token) throw new ApiError(401, "No token: Unauthorized");
+    const user = await verifyToken(token, 'accessToken');
+
+    if (user.dataValues.role !== 'seller') throw new ApiError(401, "Not seller");
+
+    (req as any).user = user.dataValues;
+    next();
+});

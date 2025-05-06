@@ -9,7 +9,7 @@ export interface UserAttributes {
     address_id?: string | null;
     deletedAt?: Date | null;
     createdAt?: Date;
-    updateTimestamp?: Date;
+    updatedAt?: Date;
 }
 
-export type UserCreationAttributes = Omit<UserAttributes, 'id' | 'createdAt' | 'updateTimestamp' | 'role'>;
+export type UserCreationAttributes = Omit<UserAttributes, 'id' | 'createdAt' | 'updatedAt' | 'role'>;
