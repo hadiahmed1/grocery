@@ -39,3 +39,7 @@ export const signinUser = asyncHandler(async (req: Request, res: Response) => {
         .cookie('accessToken', generateToken('accessToken', user.id, '1h'), { httpOnly: true, secure: true })
         .json(new ApiResponse("Signin successfull", null));
 });
+
+export const getUser = asyncHandler(async (req: Request, res: Response) => {
+    return res.status(200).send(new ApiResponse("User Found", { user: (req as any).user }));
+})
