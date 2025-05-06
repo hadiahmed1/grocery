@@ -1,12 +1,30 @@
 // models/Product.ts
-import { DataTypes } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/sequelizeConfig';
+import ProductAttributes, { ProductCreationAttributes } from '../types/product.type';
 
-const Product = sequelize.define('Product', {
+class Product extends Model<ProductAttributes, ProductCreationAttributes> implements ProductAttributes {
+  id!: string;
+  seller_id!: string;
+  name!: string;
+  mrp!: number;
+  discount_percent?: number;
+  quantity?: number;
+  unit?: 'piece' | 'units' | 'kg' | 'g' | 'mg' | 'lb' | 'ml' | 'l';
+  photo?: string | null;
+  description?: string | null;
+  stock?: number;
+  address_id?: string | null;
+  createdAt?: Date;
+  updatedAt?: Date;
+  deletedAt?: Date | null;
+}
+
+Product.init({
   id: {
-    type: DataTypes.BLOB('medium'),
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
-    allowNull: false,
   },
   seller_id: {
     type: DataTypes.BLOB('medium'), // FK to User
@@ -48,21 +66,14 @@ const Product = sequelize.define('Product', {
     type: DataTypes.BLOB('medium'),
     allowNull: true
   },
-  created_at: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW
-  },
-  updated_at: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW
-  },
-  deleted_at: {
+  deletedAt: {
     type: DataTypes.DATE,
     allowNull: true
   }
 }, {
+  sequelize,
   tableName: 'product',
-  timestamps: false
+  timestamps: true
 });
 
 export default Product;
