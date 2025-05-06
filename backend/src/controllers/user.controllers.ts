@@ -29,10 +29,10 @@ export const verifyUser = asyncHandler(async (req: Request, res: Response) => {
 export const signinUser = asyncHandler(async (req: Request, res: Response) => {
     const { email, password } = req.body;
     const user = await findUserByEmail(email);
-    if (!user || bcrypt.compareSync(password, user.user_password))
+    if (!user || !bcrypt.compareSync(password, user.user_password))
         throw new ApiError(404, "Invalid Email or Password");
     if (!user.isVerified) {
-        sendEmail(email, user.id);
+        sendEmail(email, user.id);//sending verification email
         throw new ApiError(401, "User not verified: Please check your email a verification email has been sent to you");
     }
     return res.status(200)
