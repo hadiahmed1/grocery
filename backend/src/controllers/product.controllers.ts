@@ -15,9 +15,7 @@ export const createProduct = asyncHandler(async (req: Request, res: Response) =>
 });
 
 export const getProduct = asyncHandler(async (req: Request, res: Response) => {
-    const products = await Product.findAll({
-        where: { seller_id: (req as any).user.id }
-    });
+    const products = await Product.findAll();
     return res.status(200).send(new ApiResponse("Product created successfully", { products }));
 });
 
