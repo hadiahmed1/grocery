@@ -2,6 +2,7 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../config/sequelizeConfig';
 import { UserAttributes, UserCreationAttributes } from '../types/user.type';
+import bcrypt from 'bcryptjs';
 
 class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
   public id!: string;
@@ -39,6 +40,9 @@ User.init({
   user_password: {
     type: DataTypes.STRING(100),
     allowNull: false,
+    set(value: string){
+      this.setDataValue('user_password', bcrypt.hashSync(value));
+    }
   },
   isVerified: {
     type: DataTypes.BOOLEAN,
