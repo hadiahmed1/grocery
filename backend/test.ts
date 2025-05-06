@@ -1,5 +1,5 @@
 import 'dotenv/config';
-
+import CartItem from './src/models/cartItem.model'
 import Product from './src/models/product.model';
 // import { ProductCreationAttributes } from './src/types/product.type';
 
@@ -16,4 +16,5 @@ import Product from './src/models/product.model';
 // const product=Product.build(newProduct);
 // await product.save()
 
-Product.sync({alter: true})
+Product.sync({force: true})
+CartItem.sync({ force: true })
