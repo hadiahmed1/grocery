@@ -5,6 +5,8 @@ import ApiError from '../helper/ApiError';
 import asyncHandler from '../helper/asyncHandler';
 import sendEmail from '../helper/sendEmail';
 import { findUserByEmail } from '../service/users';
+import bcrypt from 'bcryptjs';
+import generateToken from '../helper/generateToken';
 
 export const register = asyncHandler(async (req: Request, res: Response) => {
     //checking for duplicate emailId
@@ -18,8 +20,22 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const verifyUser = asyncHandler(async (req: Request, res: Response) => {
-    const response =await User.update({ isVerified: true }, {
+    const response = await User.update({ isVerified: true }, {
         where: { id: (req as any).user.id }
     })
     return res.status(200).send(new ApiResponse("User verified", null));
+});
+
+export const signinUser = asyncHandler(async (req: Request, res: Response) => {
+    const { email, password } = req.body;
+    const user = await findUserByEmail(email);
+    if (!user || bcrypt.compareSync(password, user.user_password))
+        throw new ApiError(404, "Invalid Email or Password");
+    if (!user.isVerified) {
+        sendEmail(email, user.id);
+        throw new ApiError(401, "User not verified: Please check your email a verification email has been sent to you");
+    }
+    return res.status(200)
+        .cookie('accessToken', generateToken('accessToken', user.id, '1h'), { httpOnly: true, secure: true })
+        .json(new ApiResponse("Signin successfull", null));
 });
