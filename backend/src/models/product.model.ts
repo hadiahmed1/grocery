@@ -27,7 +27,7 @@ Product.init({
     primaryKey: true,
   },
   seller_id: {
-    type: DataTypes.BLOB('medium'), // FK to User
+    type: DataTypes.STRING, // FK to User
     allowNull: false,
   },
   name: {
