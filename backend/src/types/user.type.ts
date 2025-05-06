@@ -3,6 +3,7 @@ export interface UserAttributes {
     username: string;
     email: string;
     phno?: string;
+    role: 'user'|'seller'; 
     user_password: string;
     isVerified?: boolean;
     address_id?: string | null;
@@ -11,4 +12,4 @@ export interface UserAttributes {
     updateTimestamp?: Date;
 }
 
-export type UserCreationAttributes = Omit<UserAttributes, 'id' | 'createdAt' | 'updateTimestamp'>;
+export type UserCreationAttributes = Omit<UserAttributes, 'id' | 'createdAt' | 'updateTimestamp' | 'role'>;
