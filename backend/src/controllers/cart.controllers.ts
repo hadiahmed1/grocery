@@ -5,6 +5,7 @@ import ApiResponse from '../helper/ApiResponse';
 import ApiError from '../helper/ApiError';
 import asyncHandler from '../helper/asyncHandler';
 import {AuthenticatedRequest} from '../types/AuthenticatedRequest';
+import httpStatus from '../constants/httpStatusCode'
 
 export const addToCart = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     const { product_id, count } = req.body;
@@ -17,7 +18,7 @@ export const addToCart = asyncHandler(async (req: AuthenticatedRequest, res: Res
     });
     await cartitem.save();
 
-    return res.status(200).send(new ApiResponse("Item added to cart", { cartitem }));
+    return res.status(httpStatus.OK).send(new ApiResponse("Item added to cart", { cartitem }));
 });
 
 export const getCart = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
@@ -27,5 +28,5 @@ export const getCart = asyncHandler(async (req: AuthenticatedRequest, res: Respo
         }
     })
 
-    return res.status(200).send(new ApiResponse("Cart", { cart }));
+    return res.status(httpStatus.OK).send(new ApiResponse("Cart", { cart }));
 });

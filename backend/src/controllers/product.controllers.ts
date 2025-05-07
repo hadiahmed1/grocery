@@ -5,6 +5,7 @@ import ApiResponse from '../helper/ApiResponse';
 import ApiError from '../helper/ApiError';
 import asyncHandler from '../helper/asyncHandler';
 import {AuthenticatedRequest} from '../types/AuthenticatedRequest';
+import httpStatus from '../constants/httpStatusCode';
 
 export const createProduct = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     const product: ProductCreationAttributes = req.body;
@@ -12,16 +13,16 @@ export const createProduct = asyncHandler(async (req: AuthenticatedRequest, res:
     const newProduct = Product.build(product);
     await newProduct.save();
 
-    return res.status(200).send(new ApiResponse("Product created successfully", { product: newProduct }));
+    return res.status(httpStatus.OK).send(new ApiResponse("Product created successfully", { product: newProduct }));
 });
 
 export const getProduct = asyncHandler(async (_req: Request, res: Response) => {
     const products = await Product.findAll();
-    return res.status(200).send(new ApiResponse("Product created successfully", { products }));
+    return res.status(httpStatus.OK).send(new ApiResponse("Product created successfully", { products }));
 });
 
 export const getProductById = asyncHandler(async (req: Request, res: Response) => {
     const product = await Product.findByPk(req.params.id);
-    if(!product) throw new ApiError(404, "No product found");
-    return res.status(200).send(new ApiResponse("Product created successfully", { product }));
+    if(!product) throw new ApiError(httpStatus.NOT_FOUND, "No product found");
+    return res.status(httpStatus.OK).send(new ApiResponse("Product created successfully", { product }));
 });
