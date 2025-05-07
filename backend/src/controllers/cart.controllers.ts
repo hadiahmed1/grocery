@@ -7,12 +7,13 @@ import asyncHandler from '../helper/asyncHandler';
 import {AuthenticatedRequest} from '../types/AuthenticatedRequest';
 
 export const addToCart = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-    const { product_id } = req.body;
+    const { product_id, count } = req.body;
     if (! await Product.findByPk(product_id)) throw new ApiError(404, "Product not found");
 
     const cartitem = CartItem.build({
         user_id: req.user.id,
-        product_id
+        product_id,
+        count
     });
     await cartitem.save();
 
