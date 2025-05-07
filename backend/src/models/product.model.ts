@@ -63,7 +63,7 @@ Product.init({
     defaultValue: 0
   },
   address_id: {
-    type: DataTypes.BLOB('medium'),
+    type: DataTypes.STRING(255),
     allowNull: true
   },
   deletedAt: {
