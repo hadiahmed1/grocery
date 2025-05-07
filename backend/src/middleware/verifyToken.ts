@@ -4,6 +4,7 @@ import TokenPayloadType from '../types/token.type';
 import { Request, Response, NextFunction } from 'express';
 import User from '../models/user.model';
 import asyncHandler from '../helper/asyncHandler';
+import { AuthenticatedRequest } from '../types/AuthenticatedRequest';
 
 const verifyToken = async (token: string, type: 'accessToken' | 'verificationToken') => {
     try {
@@ -21,10 +22,10 @@ const verifyToken = async (token: string, type: 'accessToken' | 'verificationTok
     }
 }
 
-export const verifyVerificationToken = asyncHandler(async (req: Request, Response: Response, next: NextFunction) => {
+export const verifyVerificationToken = asyncHandler(async (req: Request, _res: Response, next: NextFunction) => {
     const { token } = req.params;
     const user = await verifyToken(token, 'verificationToken');
-    (req as any).user = user.dataValues;
+    (req as AuthenticatedRequest).user = user.dataValues;
     next();
 });
 
@@ -32,7 +33,7 @@ export const verifyAccessToken = asyncHandler(async (req: Request, Response: Res
     const token = req.cookies?.accessToken;
     if (!token) throw new ApiError(401, "No token: Unauthorized");
     const user = await verifyToken(token, 'accessToken');
-    (req as any).user = user.dataValues;
+    (req as AuthenticatedRequest).user = user.dataValues;
     next();
 });
 
@@ -43,6 +44,6 @@ export const verifySeller = asyncHandler(async (req: Request, Response: Response
     console.log()
     if (user.dataValues.role !== 'seller') throw new ApiError(401, "Not seller");
 
-    (req as any).user = user.dataValues;
+    (req as AuthenticatedRequest).user = user.dataValues;
     next();
 });

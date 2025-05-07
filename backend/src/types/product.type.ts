@@ -1,5 +1,3 @@
-import { Buffer } from 'buffer';
-
 export default interface ProductAttributes {
     id: string;
     seller_id: string;

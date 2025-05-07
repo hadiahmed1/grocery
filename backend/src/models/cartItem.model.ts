@@ -1,4 +1,4 @@
-import { DataTypes, Model } from 'sequelize';
+import { DataTypes } from 'sequelize';
 import sequelize from '../config/sequelizeConfig';
 
 const CartItem = sequelize.define('cartitem', {
@@ -9,6 +9,10 @@ const CartItem = sequelize.define('cartitem', {
     product_id: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    count: {
+        type: DataTypes.INTEGER,
+        defaultValue: 1
     },
     deletedAt: {
         type: DataTypes.DATE,

@@ -1,20 +1,21 @@
 import Product from '../models/product.model';
-import ProductAttributes, { ProductCreationAttributes } from '../types/product.type';
+import { ProductCreationAttributes } from '../types/product.type';
 import { Request, Response } from 'express';
 import ApiResponse from '../helper/ApiResponse';
 import ApiError from '../helper/ApiError';
 import asyncHandler from '../helper/asyncHandler';
+import {AuthenticatedRequest} from '../types/AuthenticatedRequest';
 
-export const createProduct = asyncHandler(async (req: Request, res: Response) => {
+export const createProduct = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     const product: ProductCreationAttributes = req.body;
-    product.seller_id = (req as any).user.id;
+    product.seller_id = req.user.id;
     const newProduct = Product.build(product);
     await newProduct.save();
 
     return res.status(200).send(new ApiResponse("Product created successfully", { product: newProduct }));
 });
 
-export const getProduct = asyncHandler(async (req: Request, res: Response) => {
+export const getProduct = asyncHandler(async (_req: Request, res: Response) => {
     const products = await Product.findAll();
     return res.status(200).send(new ApiResponse("Product created successfully", { products }));
 });

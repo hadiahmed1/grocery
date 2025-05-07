@@ -1,14 +1,20 @@
-import { Request, Response } from "express";
-const asyncHandler = (fn: Function) => async (req: Request, res: Response, next: Function) => {
-    try {
-        await fn(req, res, next)
-    } catch (error) {
-        console.log(error);
-        res.status(error.statusCode || 500).json({
-            success: false,
-            message: error.message
-        })
-    }
-}
+import { Request, Response, NextFunction } from "express";
+
+type Controller<T extends Request = Request> = (
+  req: T,
+  res: Response,
+  next: NextFunction
+) => Promise<any>;
+
+const asyncHandler = <T extends Request = Request>(fn: Controller<T>) =>
+  (req: T, res: Response, next: NextFunction) => {
+    Promise.resolve(fn(req, res, next)).catch(error => {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: (error as Error).message,
+      });
+    });
+  };
 
 export default asyncHandler;

@@ -7,6 +7,7 @@ import sendEmail from '../helper/sendEmail';
 import { findUserByEmail } from '../service/users';
 import bcrypt from 'bcryptjs';
 import generateToken from '../helper/generateToken';
+import { AuthenticatedRequest } from '../types/AuthenticatedRequest';
 
 export const register = asyncHandler(async (req: Request, res: Response) => {
     //checking for duplicate emailId
@@ -19,11 +20,11 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
     return res.status(200).send(new ApiResponse("User created successfully", { userId: user.dataValues.id }));
 });
 
-export const verifyUser = asyncHandler(async (req: Request, res: Response) => {
-    const response = await User.update({ isVerified: true }, {
-        where: { id: (req as any).user.id }
+export const verifyUser = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+    await User.update({ isVerified: true }, {
+        where: { id: req.user.id }
     })
-    return res.status(200).send(new ApiResponse("User verified", null));
+    return res.status(200).send(new ApiResponse("User verified", {}));
 });
 
 export const signinUser = asyncHandler(async (req: Request, res: Response) => {
@@ -37,9 +38,9 @@ export const signinUser = asyncHandler(async (req: Request, res: Response) => {
     }
     return res.status(200)
         .cookie('accessToken', generateToken('accessToken', user.id, '1h'), { httpOnly: true, secure: true })
-        .json(new ApiResponse("Signin successfull", null));
+        .json(new ApiResponse("Signin successfull", {}));
 });
 
-export const getUser = asyncHandler(async (req: Request, res: Response) => {
-    return res.status(200).send(new ApiResponse("User Found", { user: (req as any).user }));
+export const getUser = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+    return res.status(200).send(new ApiResponse("User Found", { user: req.user }));
 })
