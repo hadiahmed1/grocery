@@ -4,7 +4,7 @@ type Controller<T extends Request = Request> = (
   req: T,
   res: Response,
   next: NextFunction
-) => Promise<any>;
+) => Promise<Response | void>;
 
 const asyncHandler = <T extends Request = Request>(fn: Controller<T>) =>
   (req: T, res: Response, next: NextFunction) => {
