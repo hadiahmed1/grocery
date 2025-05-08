@@ -8,7 +8,8 @@
     "dev": "nodemon --ext ts --exec tsx ./script.ts",
     "test": "nodemon --ext ts --exec tsx ./test.ts",
     "lint": "eslint . --ext .ts,.tsx,.js",
-    "lint:fix": "eslint . --ext .ts,.tsx,.js --fix"
+    "lint:fix": "eslint . --ext .ts,.tsx,.js --fix",
+    "seed":"nodemon --ext ts --exec tsx ./seed/seeder.ts"
   },
   "repository": {
     "type": "git",

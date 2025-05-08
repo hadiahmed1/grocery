@@ -33,7 +33,7 @@ User.init({
     unique: true,
   },
   phno: {
-    type: DataTypes.STRING(15),
+    type: DataTypes.STRING(25),
     allowNull: true,
     unique: true,
   },
