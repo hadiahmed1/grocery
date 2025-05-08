@@ -9,7 +9,7 @@ class User extends Model<UserAttributes, UserCreationAttributes> implements User
   public username!: string;
   public email!: string;
   public phno?: string;
-  public role: 'user' | 'seller' = "user";
+  public role!: 'user' | 'seller';
   public user_password!: string;
   public isVerified?: boolean;
   public address_id?: string | null;

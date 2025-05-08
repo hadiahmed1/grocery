@@ -13,6 +13,7 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
     //checking for duplicate emailId
     if (await findUserByEmail(req.body.email)) throw new ApiError(400, "Unable to register: Email Already in Use");
     //registering user
+    console.log(req.body)
     const user = User.build(req.body);
     await user.save();
     //sending verification email
