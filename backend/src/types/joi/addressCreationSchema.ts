@@ -7,7 +7,7 @@ const addressCreationSchema = Joi.object({
     city: Joi.string().required().max(50),
     state: Joi.string().required().max(50),
     pincode: Joi.string().required().max(16),
-    landmark:Joi.string().required().max(50),
+    landmark:Joi.string().max(50),
 }).unknown(false);
 
 export default addressCreationSchema;
