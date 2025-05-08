@@ -21,7 +21,8 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const verifyUser = asyncHandler(async (req: Request, res: Response) => {
-    if(!req.user) throw new ApiError(httpStatus.NOT_FOUND, "User not found")
+    if(!req.user) throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+    //verifying user
     await User.update({ isVerified: true }, {
         where: { id: req.user.id }
     })
@@ -29,15 +30,19 @@ export const verifyUser = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const signinUser = asyncHandler(async (req: Request, res: Response) => {
+    //extracting credentials
     const { email, password } = req.body;
+    //finding user
     const user = await findUserByEmail(email);
+    //checking if credentials are valid
     if (!user || !bcrypt.compareSync(password, user.user_password))
         throw new ApiError(httpStatus.UNAUTHORIZED, "Invalid Email or Password");
+    //checking if user is verified
     if (!user.isVerified) {
         sendEmail(email, user.id);//sending verification email
         throw new ApiError(httpStatus.UNAUTHORIZED, "User not verified: Please check your email a verification email has been sent to you");
     }
-    return res.status(httpStatus.OK)
+    return res.status(httpStatus.OK)//sending cookies to maintain session
         .cookie('accessToken', generateToken('accessToken', user.id, '1h'), { httpOnly: true, secure: true })
         .json(new ApiResponse("Signin successfull", {}));
 });
