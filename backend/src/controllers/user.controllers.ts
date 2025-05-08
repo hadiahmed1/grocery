@@ -57,6 +57,7 @@ export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
         httpOnly: true,
         secure: true
     }
+    //clearing cookies
     return res.status(httpStatus.OK)
         .clearCookie("accessToken", options)
         .send(new ApiResponse("User logged out", {}));
