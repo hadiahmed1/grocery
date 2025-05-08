@@ -12,6 +12,8 @@ export const createProduct = asyncHandler(async (req: Request, res: Response) =>
     //checking if user is present
     if(!req.user) throw new ApiError(httpStatus.NOT_FOUND, "User not found");
     product.seller_id = req.user.id;
+    if(!product.address_id)//setting product address to seller address if not metioned
+        product.address_id= req.user.address_id;
     //creating new product
     const newProduct = Product.build(product);
     await newProduct.save();
