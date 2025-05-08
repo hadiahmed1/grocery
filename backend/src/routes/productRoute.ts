@@ -3,11 +3,12 @@ import { createProduct, editProductById, getProduct, getProductById } from '../c
 import { verifySeller } from '../middleware/verifyToken'
 import validateData from '../middleware/validateSchema';
 import productCreationSchema from '../types/joi/productCreationSchema';
+import productEditSchema from '../types/joi/productEditSchema';
 
 const productRouter = express.Router();
 //protected routes
 productRouter.post('/', verifySeller, validateData(productCreationSchema), createProduct);
-productRouter.patch('/:id', verifySeller, editProductById);
+productRouter.patch('/:id', verifySeller, validateData(productEditSchema), editProductById);
 //public routes
 productRouter.get('/', getProduct);
 productRouter.get('/:id', getProductById);
