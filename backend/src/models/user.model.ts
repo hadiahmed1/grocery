@@ -5,7 +5,7 @@ import { UserAttributes, UserCreationAttributes } from '../types/user.type';
 import bcrypt from 'bcryptjs';
 
 class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
-  public id!: string;
+  public readonly id!: string;
   public username!: string;
   public email!: string;
   public phno?: string;
@@ -14,7 +14,7 @@ class User extends Model<UserAttributes, UserCreationAttributes> implements User
   public isVerified?: boolean;
   public deletedAt?: Date | null;
   public readonly createdAt!: Date;
-  public readonly updateTimestamp!: Date;
+  public readonly updatedAt!: Date;
 }
 
 User.init({
