@@ -1,5 +1,5 @@
 import "dotenv/config";
-import './src/types/express/index'
+import './src/types/express/index.d'
 import app from "./src/config/expressConfig";
 
 app.get('/', (req, res) => {
