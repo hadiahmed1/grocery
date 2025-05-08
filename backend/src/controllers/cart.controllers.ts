@@ -24,11 +24,23 @@ export const addToCart = asyncHandler(async (req: Request, res: Response) => {
 
 export const getCart = asyncHandler(async (req: Request, res: Response) => {
     if(!req.user) throw new ApiError(httpStatus.NOT_FOUND, "User not found");
-    const cart = await CartItem.findAll({
+    const cart = await CartItem.findAndCountAll({
         where: {
             user_id: req.user.id
         }
     })
 
     return res.status(httpStatus.OK).send(new ApiResponse("Cart", { cart }));
+});
+
+export const getCartItemByID = asyncHandler(async (req: Request, res: Response) => {
+    if(!req.user) throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+    const cartItem = await CartItem.findOne({
+        where:{
+            id: req.params.id,
+            user_id: req.user.id
+        }
+    });
+    if(!cartItem) throw new ApiError(httpStatus.NOT_FOUND, "Cart item not found");
+    return res.status(httpStatus.OK).send(new ApiResponse("Cart", { cartItem }));
 });
