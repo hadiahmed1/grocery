@@ -44,3 +44,36 @@ export const getCartItemByID = asyncHandler(async (req: Request, res: Response) 
     if(!cartItem) throw new ApiError(httpStatus.NOT_FOUND, "Cart item not found");
     return res.status(httpStatus.OK).send(new ApiResponse("Cart", { cartItem }));
 });
+
+export const deleteCartItemByID = asyncHandler(async (req: Request, res: Response) => {
+    if(!req.user) throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+    //finding item
+    const cartItem = await CartItem.findOne({
+        where:{
+            id: req.params.id,
+            user_id: req.user.id
+        }
+    });
+    if(!cartItem) throw new ApiError(httpStatus.NOT_FOUND, "Cart item not found");
+    //deleting item
+    cartItem.destroy();
+
+    return res.status(httpStatus.OK).send(new ApiResponse("Deleted item successfully", { cartItem }));
+});
+
+export const editCartItemByID = asyncHandler(async (req: Request, res: Response) => {
+    if(!req.user) throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+    //finding item
+    const cartItem = await CartItem.findOne({
+        where:{
+            id: req.params.id,
+            user_id: req.user.id
+        }
+    });
+    if(!cartItem) throw new ApiError(httpStatus.NOT_FOUND, "Cart item not found");
+    //update item
+    cartItem.set(req.body);
+    cartItem.save();
+
+    return res.status(httpStatus.OK).send(new ApiResponse("Edited item successfully", { cartItem }));
+});
