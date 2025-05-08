@@ -5,7 +5,7 @@ const productCreationSchema = Joi.object({
     mrp: Joi.number().min(1).required(),
     discount_percent: Joi.number().min(0).max(99.99),
     quantity: Joi.number().min(1),
-    unit: Joi.string().valid(['piece', 'units', 'kg', 'g', 'mg', 'lb', 'ml', 'l']),
+    unit: Joi.string().valid('piece', 'units', 'kg', 'g', 'mg', 'lb', 'ml', 'l'),
     photo: Joi.string(),
     description: Joi.string(),
     stock: Joi.number().min(1),
