@@ -8,7 +8,7 @@ const Address = sequelize.define('Address', {
     primaryKey: true,
   },
   name:{
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(50),
     defaultValue: null
   },
   user_id:{
