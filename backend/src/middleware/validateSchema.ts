@@ -8,7 +8,7 @@ const validateData = (schema: ObjectSchema) => {//function to validate req based
     return asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
         const { error } = schema.validate(req.body);
         if (error) //invalid request
-            throw new ApiError(httpStatus.BAD_REQUEST, error.details[0].message);
+            throw new ApiError(httpStatus.BAD_REQUEST, error.details[0].message, error.details.map(err => err.message));
         next();
     })
 }
