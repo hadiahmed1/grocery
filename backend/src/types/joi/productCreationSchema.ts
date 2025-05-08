@@ -9,7 +9,7 @@ const productCreationSchema = Joi.object({
     photo: Joi.string(),
     description: Joi.string(),
     stock: Joi.number().min(1),
-    address_id: Joi.string(),
+    address_id: Joi.string().required(),
 });
 
 export default productCreationSchema;

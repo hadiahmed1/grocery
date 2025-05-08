@@ -14,7 +14,7 @@ class Product extends Model<ProductAttributes, ProductCreationAttributes> implem
   photo?: string | null;
   description?: string | null;
   stock?: number;
-  address_id?: string | null;
+  address_id?: string;
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date | null;
@@ -64,7 +64,7 @@ Product.init({
   },
   address_id: {
     type: DataTypes.STRING(255),
-    allowNull: true
+    allowNull: false
   },
   deletedAt: {
     type: DataTypes.DATE,
