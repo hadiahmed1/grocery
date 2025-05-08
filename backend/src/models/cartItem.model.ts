@@ -2,6 +2,11 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../config/sequelizeConfig';
 
 const CartItem = sequelize.define('cartitem', {
+    id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+    },
     user_id: {
         type: DataTypes.STRING,
         allowNull: false
