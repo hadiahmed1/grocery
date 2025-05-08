@@ -24,7 +24,8 @@ const CartItem = sequelize.define('cartitem', {
         allowNull: true
     }
 }, {
-    timestamps: true
+    timestamps: true,
+    paranoid: true
 }
 );
 
