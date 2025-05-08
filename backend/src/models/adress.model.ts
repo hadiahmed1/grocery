@@ -1,11 +1,11 @@
 import { DataTypes } from 'sequelize';
-import sequelize from '../config/sequelizeConfig'; 
+import sequelize from '../config/sequelizeConfig';
 
 const Address = sequelize.define('Address', {
   id: {
-    type: DataTypes.BLOB('medium'), 
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
-    allowNull: false
   },
   line1: {
     type: DataTypes.STRING(50),
@@ -31,21 +31,13 @@ const Address = sequelize.define('Address', {
     type: DataTypes.STRING(50),
     allowNull: true
   },
-  created_at: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW
-  },
-  updated_at: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW
-  },
   deleted_at: {
     type: DataTypes.DATE,
     allowNull: true
   }
 }, {
   tableName: 'address',
-  timestamps: false 
+  timestamps: true
 });
 
 export default Address;
