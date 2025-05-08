@@ -4,11 +4,11 @@ import { Request, Response } from 'express';
 import ApiResponse from '../helper/ApiResponse';
 import ApiError from '../helper/ApiError';
 import asyncHandler from '../helper/asyncHandler';
-import {AuthenticatedRequest} from '../types/AuthenticatedRequest';
 import httpStatus from '../constants/httpStatusCode';
 
-export const createProduct = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+export const createProduct = asyncHandler(async (req: Request, res: Response) => {
     const product: ProductCreationAttributes = req.body;
+    if(!req.user) throw new ApiError(httpStatus.NOT_FOUND, "User not found");
     product.seller_id = req.user.id;
     const newProduct = Product.build(product);
     await newProduct.save();

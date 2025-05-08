@@ -7,7 +7,6 @@ import sendEmail from '../helper/sendEmail';
 import { findUserByEmail } from '../service/users';
 import bcrypt from 'bcryptjs';
 import generateToken from '../helper/generateToken';
-import { AuthenticatedRequest } from '../types/AuthenticatedRequest';
 import httpStatus from '../constants/httpStatusCode';
 
 export const register = asyncHandler(async (req: Request, res: Response) => {
@@ -21,7 +20,8 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
     return res.status(httpStatus.OK).send(new ApiResponse("User created successfully", { userId: user.dataValues.id }));
 });
 
-export const verifyUser = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+export const verifyUser = asyncHandler(async (req: Request, res: Response) => {
+    if(!req.user) throw new ApiError(httpStatus.NOT_FOUND, "User not found")
     await User.update({ isVerified: true }, {
         where: { id: req.user.id }
     })
@@ -42,6 +42,6 @@ export const signinUser = asyncHandler(async (req: Request, res: Response) => {
         .json(new ApiResponse("Signin successfull", {}));
 });
 
-export const getUser = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+export const getUser = asyncHandler(async (req: Request, res: Response) => {
     return res.status(httpStatus.OK).send(new ApiResponse("User Found", { user: req.user }));
 })

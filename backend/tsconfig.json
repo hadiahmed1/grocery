@@ -3,13 +3,14 @@
     "target": "es2017",
     "module": "esnext",
     "outDir": "./dist",
-    "rootDir": "./",
+    "rootDir": "./src",                     
     "moduleResolution": "node",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "types": ["node", "estree"]
+    "types": ["node"],
+    "typeRoots": ["./src/types", "./node_modules/@types"]
   },
-  "include": ["*.ts"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
 }
