@@ -7,6 +7,10 @@ const Address = sequelize.define('Address', {
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   },
+  name:{
+    type: DataTypes.STRING,
+    defaultValue: null
+  },
   user_id:{
     type: DataTypes.UUID,
     allowNull: false
