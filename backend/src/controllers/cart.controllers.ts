@@ -4,7 +4,6 @@ import {Request ,Response } from 'express';
 import ApiResponse from '../helper/ApiResponse';
 import ApiError from '../helper/ApiError';
 import asyncHandler from '../helper/asyncHandler';
-import {AuthenticatedRequest} from '../types/AuthenticatedRequest';
 import httpStatus from '../constants/httpStatusCode'
 
 export const addToCart = asyncHandler(async (req: Request, res: Response) => {

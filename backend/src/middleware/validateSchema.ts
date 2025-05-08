@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { ObjectSchema, ValidationError } from "joi";
+import { ObjectSchema } from "joi";
 import ApiError from "../helper/ApiError";
 import httpStatus from "../constants/httpStatusCode";
 import asyncHandler from "../helper/asyncHandler";
