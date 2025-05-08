@@ -21,7 +21,7 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const verifyUser = asyncHandler(async (req: Request, res: Response) => {
-    if(!req.user) throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+    if (!req.user) throw new ApiError(httpStatus.NOT_FOUND, "User not found");
     //verifying user
     await User.update({ isVerified: true }, {
         where: { id: req.user.id }
@@ -49,4 +49,14 @@ export const signinUser = asyncHandler(async (req: Request, res: Response) => {
 
 export const getUser = asyncHandler(async (req: Request, res: Response) => {
     return res.status(httpStatus.OK).send(new ApiResponse("User Found", { user: req.user }));
-})
+});
+
+export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
+    const options = {
+        httpOnly: true,
+        secure: true
+    }
+    return res.status(httpStatus.OK)
+        .clearCookie("accessToken", options)
+        .send(new ApiResponse("User logged out", {}));
+});
