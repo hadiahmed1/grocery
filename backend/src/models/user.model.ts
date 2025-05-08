@@ -12,7 +12,6 @@ class User extends Model<UserAttributes, UserCreationAttributes> implements User
   public role!: 'user' | 'seller';
   public user_password!: string;
   public isVerified?: boolean;
-  public address_id?: string | null;
   public deletedAt?: Date | null;
   public readonly createdAt!: Date;
   public readonly updateTimestamp!: Date;
@@ -53,10 +52,6 @@ User.init({
     type: DataTypes.STRING,
     allowNull: false,
     defaultValue: 'user'
-  },
-  address_id: {
-    type: DataTypes.UUID,
-    allowNull: true,
   },
   deletedAt: {
     type: DataTypes.DATE,

@@ -6,7 +6,6 @@ export interface UserAttributes {
     role: 'user'|'seller'; 
     user_password: string;
     isVerified?: boolean;
-    address_id?: string | null;
     deletedAt?: Date | null;
     createdAt?: Date;
     updatedAt?: Date;
