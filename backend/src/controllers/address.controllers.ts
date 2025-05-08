@@ -34,3 +34,12 @@ export const editAddress = asyncHandler(async (req: Request, res: Response) => {
 
     return res.status(httpStatus.OK).send(new ApiResponse("Address edited successfully", { address }));
 });
+
+export const getAddress = asyncHandler(async (req: Request, res: Response) => {
+    if (!req.user) throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+    const addresses = await Address.findAll({
+        where: { user_id: req.user.id }
+    })
+    return res.status(httpStatus.OK)
+        .send(new ApiResponse("Address created successfully", { addresses }));
+});
