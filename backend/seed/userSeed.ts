@@ -1,4 +1,4 @@
-import { faker, tr } from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 import User from '../src/models/user.model';
 import { UserCreationAttributes } from '../src/types/user.type';
 
@@ -10,7 +10,7 @@ const userSeed = async (n: number) => {
             email: `hadiahmed0112+${i}@gmail.com`,
             user_password: `pass${i}`,
             isVerified: (Math.random() > 0.25),
-            phno: faker.phone.number().slice(0,12),
+            phno: faker.phone.number().slice(0, 12),
             role: (Math.random() < 0.7) ? 'user' : 'seller',
         }
         User.build(user).save();
