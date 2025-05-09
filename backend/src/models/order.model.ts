@@ -12,14 +12,14 @@ const Order = sequelize.define('orders', {
         allowNull: false
     },
     status: {
-        type: DataTypes.ENUM('ordered', 'delivered', 'out_for_delivery', 'cancelled'),
+        type: DataTypes.ENUM('ordered', 'delivered', 'cancelled'),
         defaultValue: 'ordered'
     },
     delivery_date: {
         type: DataTypes.DATE,
         defaultValue: () => {//default to 1 week
             const now = new Date();
-            now.setDate(now.getDate() + 1);
+            now.setDate(now.getMinutes() + Math.ceil(Math.random() * 5));//delivery time of 1-5 mins for now
             return now;
         }
     },
