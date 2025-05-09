@@ -1,4 +1,4 @@
-import { Model, DataTypes, Optional } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 import sequelize from '../config/sequelizeConfig';
 
 interface OrderAttributes {
@@ -9,7 +9,7 @@ interface OrderAttributes {
   deletedAt?: Date | null;
 }
 
-interface OrderCreationAttributes extends Optional<OrderAttributes, 'id' | 'status' | 'delivery_date' | 'deletedAt'> {}
+type OrderCreationAttributes = Omit<OrderAttributes, 'id' | 'status' | 'delivery_date' | 'deletedAt'> 
 
 class Order extends Model<OrderAttributes, OrderCreationAttributes> implements OrderAttributes {
   public id!: string;

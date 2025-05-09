@@ -1,4 +1,4 @@
-import { Model, DataTypes, Optional } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 import sequelize from '../config/sequelizeConfig';
 
 interface CartItemAttributes {
@@ -8,8 +8,7 @@ interface CartItemAttributes {
   count: number;
   deletedAt?: Date | null;
 }
-
-interface CartItemCreationAttributes extends Optional<CartItemAttributes, 'id' | 'count' | 'deletedAt'> {}
+type CartItemCreationAttributes = Omit<CartItemAttributes, 'id' | 'count' | 'deletedAt'>
 
 class CartItem extends Model<CartItemAttributes, CartItemCreationAttributes>
   implements CartItemAttributes {
