@@ -59,14 +59,51 @@ export const orderCart = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const cancelOrder = asyncHandler(async (req: Request, res: Response) => {
+    //finding buyer
+    const { user } = req;
+    if (!user) throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+    const order = await Order.findOne({
+        where: {
+            id: req.params.id,
+            user_id: user.id
+        }
+    });
+    if (!order) throw new ApiError(httpStatus.NOT_FOUND, "Order not found");
+    if (order.status !== 'ordered') throw new ApiError(httpStatus.BAD_REQUEST, "Can't cancell order");
+
+    order.status = "cancelled";
+    order.save();
     return res.status(httpStatus.OK).send(new ApiResponse("Order cancelled", {}));
 });
 
 export const getOrder = asyncHandler(async (req: Request, res: Response) => {
-    return res.status(httpStatus.OK).send(new ApiResponse("Orders", {}));
+    const { user } = req;
+    if (!user) throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+    //finding order
+    const order = await Order.findOne({
+        where: {
+            id: req.params.id,
+            user_id: user.id
+        }
+    });
+    if (!order) throw new ApiError(httpStatus.NOT_FOUND, "Order not found");
+    //finding order items
+    const orderItems = await OrderItem.findAll({
+        where: { order_id: order.id }
+    });
+
+    return res.status(httpStatus.OK).send(new ApiResponse("Orders", { orderItems }));
 });
 
 //seller & buyer
 export const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
-    return res.status(httpStatus.OK).send(new ApiResponse("Order", {}));
+    const { user } = req;
+    if (!user) throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+    //finding order
+    const orders = await Order.findAll({
+        where: {
+            user_id: user.id
+        }
+    });
+    return res.status(httpStatus.OK).send(new ApiResponse("Order", { orders }));
 });

@@ -8,7 +8,7 @@ orderRouter.get('/', verifyAccessToken, getMyOrders);
 orderRouter.get('/:id', verifyAccessToken, getOrder);
 orderRouter.post('/product', verifyAccessToken, orderItem);
 orderRouter.post('/cart', verifyAccessToken, orderCart);
-orderRouter.patch('/:id/cancell', verifyAccessToken, cancelOrder);
+orderRouter.patch('/:id', verifyAccessToken, cancelOrder);
 
 
 export default orderRouter;
