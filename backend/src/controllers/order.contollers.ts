@@ -24,7 +24,7 @@ export const getOrder = asyncHandler(async (req: Request, res: Response) => {
     return res.status(httpStatus.OK).send(new ApiResponse("", {}));
 });
 
-//seller
-export const getMyOrder = asyncHandler(async (req: Request, res: Response) => {
+//seller & buyer
+export const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
     return res.status(httpStatus.OK).send(new ApiResponse("", {}));
 });
