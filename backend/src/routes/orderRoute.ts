@@ -6,7 +6,7 @@ const orderRouter = express.Router();
 
 orderRouter.get('/', verifyAccessToken, getMyOrders);
 orderRouter.get('/:id', verifyAccessToken, getOrder);
-orderRouter.post('/:productID', verifyAccessToken, orderItem);
+orderRouter.post('/product', verifyAccessToken, orderItem);
 orderRouter.post('/cart', verifyAccessToken, orderCart);
 orderRouter.patch('/:id/cancell', verifyAccessToken, cancelOrder);
 
