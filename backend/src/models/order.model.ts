@@ -17,7 +17,6 @@ class Order extends Model<OrderAttributes, OrderCreationAttributes> implements O
   public status!: 'ordered' | 'delivered' | 'cancelled';
   public delivery_date!: Date;
   public deletedAt?: Date | null;
-
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }

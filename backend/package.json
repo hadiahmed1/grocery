@@ -9,7 +9,7 @@
     "test": "nodemon --ext ts --exec tsx ./test.ts",
     "lint": "eslint . --ext .ts,.tsx,.js",
     "lint:fix": "eslint . --ext .ts,.tsx,.js --fix",
-    "seed":"nodemon --ext ts --exec tsx ./seed/seeder.ts"
+    "seed": "nodemon --ext ts --exec tsx ./seed/seeder.ts"
   },
   "repository": {
     "type": "git",
@@ -39,6 +39,7 @@
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.14.1",
+    "node-cron": "^3.0.3",
     "nodemailer": "^7.0.2",
     "nodemailer-express-handlebars": "^7.0.0",
     "sequelize": "^6.37.7",
@@ -52,6 +53,7 @@
     "@types/express": "^5.0.1",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^22.15.3",
+    "@types/node-cron": "^3.0.11",
     "@types/nodemailer": "^6.4.17",
     "@types/nodemailer-express-handlebars": "^4.0.5",
     "@types/sequelize": "^4.28.20",
