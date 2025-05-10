@@ -7,6 +7,8 @@ import { Request, Response } from "express";
 import httpStatus from "../constants/httpStatusCode";
 import Product from "../models/product.model";
 import CartItem from "../models/cartItem.model";
+import sequelize from "../config/sequelizeConfig";
+import { QueryTypes } from "sequelize";
 
 const createOrderItem = async (order_id: string, product_id: string, quantity: number = 1) => {
     const product = await Product.findByPk(product_id);
@@ -92,7 +94,31 @@ export const getOrder = asyncHandler(async (req: Request, res: Response) => {
         where: { order_id: order.id }
     });
 
-    return res.status(httpStatus.OK).send(new ApiResponse("Orders", { orderItems }));
+
+    const results = await sequelize.query(`
+  SELECT 
+    o.order_id,
+    o.id as orderitem_id, 
+    o.product_id, 
+    o.quantity as order_quantity, 
+    o.price, 
+    p.name, 
+    p.quantity, 
+    p.unit
+  FROM orderitems o 
+  JOIN products p ON o.product_id = p.id
+  WHERE o.order_id = :orderId
+`, {
+        replacements: { orderId: '12f9b37f-fde6-4f3d-b418-db4a7a6db000' },
+        type: QueryTypes.SELECT
+    });
+
+    console.log(results)
+
+
+
+
+    return res.status(httpStatus.OK).send(new ApiResponse("Orders", { results }));
 });
 
 //seller & buyer
