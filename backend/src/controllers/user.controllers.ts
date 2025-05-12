@@ -45,7 +45,7 @@ export const signinUser = asyncHandler(async (req: Request, res: Response) => {
     }
     return res.status(httpStatus.OK)//sending cookies to maintain session
         .cookie('accessToken', generateToken('accessToken', user.id, '1h'), { httpOnly: true, secure: true })
-        .json(new ApiResponse("Signin successfull", {id: user.id, role: user.role}));
+        .json(new ApiResponse("Signin successfull", { user: { id: user.id, role: user.role } }));
 });
 
 export const getUser = asyncHandler(async (req: Request, res: Response) => {

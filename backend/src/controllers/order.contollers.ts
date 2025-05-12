@@ -109,14 +109,9 @@ export const getOrder = asyncHandler(async (req: Request, res: Response) => {
   JOIN products p ON o.product_id = p.id
   WHERE o.order_id = :orderId
 `, {
-        replacements: { orderId: '12f9b37f-fde6-4f3d-b418-db4a7a6db000' },
+        replacements: { orderId: order.id },
         type: QueryTypes.SELECT
     });
-
-    console.log(results)
-
-
-
 
     return res.status(httpStatus.OK).send(new ApiResponse("Orders", { results }));
 });
