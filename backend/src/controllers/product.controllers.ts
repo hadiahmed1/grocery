@@ -6,6 +6,7 @@ import ApiError from '../helper/ApiError';
 import asyncHandler from '../helper/asyncHandler';
 import httpStatus from '../constants/httpStatusCode';
 import Address from '../models/adress.model';
+import uploadToCloudinary from '../helper/uploadToCloudinary';
 
 export const createProduct = asyncHandler(async (req: Request, res: Response) => {
     //extraction product object
@@ -20,6 +21,16 @@ export const createProduct = asyncHandler(async (req: Request, res: Response) =>
         }
     })) throw new ApiError(httpStatus.BAD_REQUEST, "Invalid Address");
     product.seller_id = req.user.id;
+    //uploading photo
+    const files = (req as any)?.files;
+    const path =
+        (req.files && Array.isArray(files.photo) && files.photo.length > 0)
+            ? files?.photo[0]?.path : "";
+    if (!path) throw new ApiError(400, "Avatar image required");
+
+    const photo = await uploadToCloudinary(path);
+    req.body.photo = photo?.secure_url;
+
     //creating new product
     const newProduct = Product.build(product);
     await newProduct.save();

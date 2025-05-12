@@ -4,10 +4,11 @@ import { verifySeller } from '../middleware/verifyToken'
 import validateData from '../middleware/validateSchema';
 import productCreationSchema from '../types/joi/productCreationSchema';
 import productEditSchema from '../types/joi/productEditSchema';
+import { upload } from '../middleware/multer.middleware';
 
 const productRouter = express.Router();
 //protected routes
-productRouter.post('/', verifySeller, validateData(productCreationSchema), createProduct);
+productRouter.post('/', verifySeller, upload.fields([{ name: "photo", maxCount: 1 }]), validateData(productCreationSchema), createProduct);
 productRouter.patch('/:id', verifySeller, validateData(productEditSchema), editProductById);
 //public routes
 productRouter.get('/', getProduct);
