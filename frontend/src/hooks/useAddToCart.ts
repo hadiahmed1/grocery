@@ -1,12 +1,13 @@
-import axiosInstance from "../axiosInstance"
+import axiosInstance from "../lib/axiosInstance";
 
-const addToCart = async (product_id: string, count: number = 1) => {
+const useAddToCart = async (product_id: string, count: number = 1) => {
     try {
         const { data } = await axiosInstance.post('cart/', { product_id, count });
+        console.log(data)
         return data.data.success;
     } catch (error) {
         return false;
     }
 }
 
-export default addToCart;
+export default useAddToCart;
