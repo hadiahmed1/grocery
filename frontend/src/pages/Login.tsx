@@ -1,29 +1,27 @@
 import { useForm, type SubmitHandler } from "react-hook-form"
 import axiosInstance from "../lib/axiosInstance"
-
+import useUser from "../hooks/useUser"
 
 type Inputs = {
     email: string
     password: string
 }
 
-
 export default function Login() {
+    const { user, setUser } = useUser();
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm<Inputs>()
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
-        const res = await axiosInstance.post('user/signin',data);
+        const res = await axiosInstance.post('user/signin', data);
+        setUser(res.data.data.user);
+        console.log(user);
         console.log(res)
     }
 
     return (
-
-
-
-
         <form className="max-w-sm mx-auto" onSubmit={handleSubmit(onSubmit)} >
             {/* EMAIL */}
             <div className="mb-5">
@@ -43,19 +41,5 @@ export default function Login() {
             <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login</button>
         </form>
 
-
-
-
-
-
-
-
-        // <form onSubmit={handleSubmit(onSubmit)}>
-        //     <input  />
-        //     
-        //     <input  />
-        //     {errors.password && <span>Password is required</span>}
-        //     <input type="submit" />
-        // </form>
     )
 }
