@@ -6,7 +6,7 @@ export default interface CartItemAttributes {
     updatedAt: string;
     name: string;
     mrp: number;
-    discount_percent?: string;
+    discount_percent: number;
     quantity?: number;
     unit?: string;
     photo: string;
