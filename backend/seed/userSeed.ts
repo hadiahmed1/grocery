@@ -13,7 +13,7 @@ const userSeed = async (n: number) => {
             phno: faker.phone.number().slice(0, 12),
             role: (Math.random() < 0.7) ? 'user' : 'seller',
         }
-        User.build(user).save();
+        await User.build(user).save();
     }
     console.log("user seed done");
 }

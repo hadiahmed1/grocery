@@ -4,12 +4,12 @@ import addressSeed from './addressSeed';
 import productSeed from './productSeed';
 import cartItemSeed from './cartItemSeed';
 
-const seeder = async () => {
-    await userSeed(20);
+const seeder = async (n: number) => {
+    await userSeed(n);
     await addressSeed();
     await productSeed();
     await cartItemSeed();
-    console.log("Seeder")
+    console.log("Seeder Done")
 }
 
-seeder();
+seeder(20);

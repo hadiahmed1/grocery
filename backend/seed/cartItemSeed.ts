@@ -7,11 +7,12 @@ const cartItemSeed = async () => {
     const products = await Product.findAll();
     users.forEach(user => {
         const itemcount = Math.floor(Math.random() * 5);
+        const random = Math.floor(Math.random() * 1000);
         for (let i = 0; i < itemcount; i++) {
             const cartItem = {
-                user_id:user.id,
-                product_id : products[Math.floor(Math.random()*products.length)].id,
-                count: Math.floor(Math.random()*10)
+                user_id: user.id,
+                product_id: products[random % products.length].dataValues.id,
+                count: Math.floor(Math.random() * 10)
             }
             CartItem.build(cartItem).save();
         }
