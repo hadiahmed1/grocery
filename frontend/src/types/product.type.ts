@@ -4,6 +4,7 @@ export default interface ProductAttributes {
     name: string;
     mrp: number;
     discount_percent?: number;
+    count?: number;
     quantity?: number;
     unit?: 'piece' | 'units' | 'kg' | 'g' | 'mg' | 'lb' | 'ml' | 'l';
     photo?: string | null;

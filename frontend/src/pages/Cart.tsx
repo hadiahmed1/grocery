@@ -1,6 +1,17 @@
+import useCartItem from "../hooks/useCartItems";
+
 const Cart = () => {
+    const { cartItems, error, loading } = useCartItem();
+    if (loading) return <>Loading....</>
+    if (error) return <>Error....</>
+    if (!loading) console.log(cartItems);
+
     return (
-        <h1 className="text-amber-300 text-7xl">Cart</h1>
+        <div>
+            {cartItems.map(item => (
+                <div key={item.id}>{item.name}</div>
+            ))}
+        </div>
     );
 }
 
