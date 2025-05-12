@@ -10,4 +10,6 @@ export default interface CartItemAttributes {
     quantity?: number;
     unit?: string;
     photo: string;
+    seller_id: string;
+    description: string;
 }
