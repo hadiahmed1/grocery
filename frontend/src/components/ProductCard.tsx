@@ -4,7 +4,7 @@ import type ProductAttributes from "../types/product.type";
 import useAddToCart from "../hooks/useAddToCart";
 
 const ProductCard = ({ product }: { product: ProductAttributes }) => {
-    const [quantity, setQuantity] = useState(1);
+    const [quantity, setQuantity] = useState(product.quantity || 1);
     const [showFullDescription, setShowFullDescription] = useState(false);
 
     const incrementQuantity = () => setQuantity((prev) => prev + 1);
@@ -90,22 +90,22 @@ const ProductCard = ({ product }: { product: ProductAttributes }) => {
                             </div>
                         </div>
 
-                        <button //Add to cart
+                        {!product.quantity && <button //Add to cart
                             className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-medium
               hover:bg-blue-700 transform transition-all duration-300 hover:scale-[1.02]
               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                            onClick={() => useAddToCart(product.id , quantity) }
+                            onClick={() => useAddToCart(product.id, quantity)}
                         >
                             Add to Cart
-                        </button>
-                        <button //Buy Now
+                        </button>}
+                        {!product.quantity && <button //Buy Now
                             className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-medium
               hover:bg-blue-700 transform transition-all duration-300 hover:scale-[1.02]
               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                             onClick={() => console.log(`Ordered`)}
                         >
                             Buy Now
-                        </button>
+                        </button>}
                     </div>
                 </div>
             </div>
