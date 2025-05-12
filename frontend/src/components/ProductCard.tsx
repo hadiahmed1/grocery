@@ -3,7 +3,7 @@ import { FaMinus, FaPlus } from "react-icons/fa";
 import type ProductAttributes from "../types/product.type";
 import useAddToCart from "../hooks/useAddToCart";
 
-const ProductCard = ({ product }: { product: ProductAttributes }) => {
+const ProductCard = ({ product, isCartItem = false }: { product: ProductAttributes, isCartItem?: boolean }) => {
     const [quantity, setQuantity] = useState(product.quantity || 1);
     const [showFullDescription, setShowFullDescription] = useState(false);
 
@@ -90,7 +90,7 @@ const ProductCard = ({ product }: { product: ProductAttributes }) => {
                             </div>
                         </div>
 
-                        {!product.quantity && <button //Add to cart
+                        {!isCartItem && <button //Add to cart
                             className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-medium
               hover:bg-blue-700 transform transition-all duration-300 hover:scale-[1.02]
               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
@@ -98,13 +98,21 @@ const ProductCard = ({ product }: { product: ProductAttributes }) => {
                         >
                             Add to Cart
                         </button>}
-                        {!product.quantity && <button //Buy Now
+                        {!isCartItem && <button //Buy Now
                             className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-medium
               hover:bg-blue-700 transform transition-all duration-300 hover:scale-[1.02]
               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                             onClick={() => console.log(`Ordered`)}
                         >
                             Buy Now
+                        </button>}
+                        {isCartItem && <button //Remove from cart
+                            className="w-full bg-red-600 text-white py-3 px-6 rounded-lg font-medium
+              hover:bg-red-700 transform transition-all duration-300 hover:scale-[1.02]
+              focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                            onClick={() => console.log(`Ordered`)}
+                        >
+                            Remove from Cart
                         </button>}
                     </div>
                 </div>

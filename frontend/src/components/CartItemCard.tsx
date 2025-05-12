@@ -10,7 +10,7 @@ const CartItemCard = ({ cartItem }: { cartItem: CartItemAttributes }) => {
     }
     return (
         <>
-            <ProductCard product={product} />
+            <ProductCard isCartItem={true} product={product} />
         </>
     )
 }
