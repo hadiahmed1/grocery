@@ -6,6 +6,7 @@ import Login from './pages/Login'
 import UserContext from './contexts/UserContext'
 import { useState } from 'react'
 import type { UserAttributes } from './types/user.type'
+import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
   const [user, setUser] = useState<UserAttributes | null>(null);
@@ -23,7 +24,12 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/cart' element={<Cart />} />
+          <Route element={<ProtectedRoute />} >
+            <Route path='/cart' element={<Cart />} />
+          </Route>
+
+
+
         </Routes>
       </UserContext.Provider>
     </>
