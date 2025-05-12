@@ -8,7 +8,7 @@ interface CartItemAttributes {
   count: number;
   deletedAt?: Date | null;
 }
-type CartItemCreationAttributes = Omit<CartItemAttributes, 'id' | 'count' | 'deletedAt'>
+type CartItemCreationAttributes = Omit<CartItemAttributes, 'id' | 'deletedAt'>
 
 class CartItem extends Model<CartItemAttributes, CartItemCreationAttributes>
   implements CartItemAttributes {

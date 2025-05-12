@@ -8,7 +8,7 @@ import httpStatus from '../constants/httpStatusCode'
 
 export const addToCart = asyncHandler(async (req: Request, res: Response) => {
     if(!req.user) throw new ApiError(httpStatus.NOT_FOUND, "User not found");
-    const { product_id, count } = req.body;
+    const { product_id, count=1 } = req.body;
     if (! await Product.findByPk(product_id)) throw new ApiError(404, "Product not found");
 
     const cartitem = CartItem.build({
