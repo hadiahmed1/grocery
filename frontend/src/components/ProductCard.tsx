@@ -2,6 +2,8 @@ import { useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import type ProductAttributes from "../types/product.type";
 import useCartItem from "../hooks/useCartItems";
+import AddToCartBtn from "./AddToCartBtn";
+import DeleteFromCartBtn from "./DeleteFromCartBtn";
 
 const ProductCard = ({ product, cartItemId = undefined }: { product: ProductAttributes, cartItemId?: string | undefined }) => {
     const [quantity, setQuantity] = useState(product.count ?? 1);
@@ -93,14 +95,7 @@ const ProductCard = ({ product, cartItemId = undefined }: { product: ProductAttr
                             </div>
                         </div>
 
-                        {!cartItemId && <button //Add to cart
-                            className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-medium
-              hover:bg-blue-700 transform transition-all duration-300 hover:scale-[1.02]
-              focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                            onClick={() => cart.addItem(product.id, quantity)}
-                        >
-                            Add to Cart
-                        </button>}
+                        {!cartItemId && <AddToCartBtn id={product.id} quantity={quantity} />}
                         {!cartItemId && <button //Buy Now
                             className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-medium
               hover:bg-blue-700 transform transition-all duration-300 hover:scale-[1.02]
@@ -109,14 +104,7 @@ const ProductCard = ({ product, cartItemId = undefined }: { product: ProductAttr
                         >
                             Buy Now
                         </button>}
-                        {cartItemId && <button //Remove from cart
-                            className="w-full bg-red-600 text-white py-3 px-6 rounded-lg font-medium
-              hover:bg-red-700 transform transition-all duration-300 hover:scale-[1.02]
-              focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-                            onClick={() => cart.deleteItem(cartItemId)}
-                        >
-                            Remove from Cart
-                        </button>}
+                        {cartItemId && <DeleteFromCartBtn id={cartItemId} />}
                     </div>
                 </div>
             </div>
