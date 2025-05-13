@@ -17,9 +17,10 @@ const useCartItem = () => {
                     setCartItems(res.data.data.cart);
                     setLoading(false);
                 }
-            } catch (err) {
+            } catch (error) {
                 if (isMounted) {
-                    setError("Failed to load cart items");
+                    console.log(error)
+                    setError("Failed to load cart items:");
                     setLoading(false);
                 }
             }
@@ -39,6 +40,7 @@ const useCartItem = () => {
             console.log(data)
             return data.data.success;
         } catch (error) {
+            console.log(error)
             return false;
         }
     }

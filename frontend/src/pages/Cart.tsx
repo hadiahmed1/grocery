@@ -1,8 +1,8 @@
 import CartItemCard from "../components/CartItemCard";
-import useCartItem from "../hooks/useCartItems";
+import { useCart } from "../hooks/useCart";
 
 const Cart = () => {
-    const { cartItems, error, loading } = useCartItem();
+    const { cartItems, error, loading } = useCart();
     if (loading) return <>Loading....</>
     if (error) return <>Error....</>
     if (!loading) console.log(cartItems);

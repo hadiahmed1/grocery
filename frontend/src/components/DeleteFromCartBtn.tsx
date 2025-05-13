@@ -1,7 +1,6 @@
-import useCartItem from "../hooks/useCartItems"
-
+import { useCart } from "../hooks/useCart";
 const DeleteFromCartBtn = ({ id }: { id: string }) => {
-    const { deleteItem } = useCartItem();
+    const { deleteItem } = useCart();
     return (
         <button //Remove from cart
             className="w-full bg-red-600 text-white py-3 px-6 rounded-lg font-medium

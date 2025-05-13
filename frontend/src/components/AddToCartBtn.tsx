@@ -1,6 +1,6 @@
-import useCartItem from '../hooks/useCartItems';
+import { useCart } from '../hooks/useCart';
 const AddToCartBtn = ({ id, quantity }: { id: string, quantity: number }) => {
-    const { addItem } = useCartItem();
+    const { addItem } = useCart();
 
     return (<button //Add to cart
         className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-medium

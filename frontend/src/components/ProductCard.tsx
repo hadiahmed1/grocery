@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import type ProductAttributes from "../types/product.type";
-import useCartItem from "../hooks/useCartItems";
 import AddToCartBtn from "./AddToCartBtn";
 import DeleteFromCartBtn from "./DeleteFromCartBtn";
 
@@ -13,9 +12,6 @@ const ProductCard = ({ product, cartItemId = undefined }: { product: ProductAttr
     const decrementQuantity = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
 
     const toggleDescription = () => setShowFullDescription(!showFullDescription);
-
-    const cart = useCartItem();
-
 
     const discountedPrice = (
         product.mrp -
