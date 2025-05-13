@@ -28,8 +28,8 @@ export const getCart = asyncHandler(async (req: Request, res: Response) => {
 
     const cart = await sequelize.query(`
         SELECT  
-        c.id, c.product_id, c.count, c.createdAt, c.updatedAt, p.name, p.mrp, p.discount_percent, p.quantity, p.seller_id, p.description, p.unit, p.photo 
-        FROM cartitem c
+        c.id as id, c.product_id, c.count, c.createdAt, c.updatedAt, p.name, p.mrp, p.discount_percent, p.quantity, p.seller_id, p.description, p.unit, p.photo 
+        FROM cartitems c
         JOIN products p ON p.id = c.product_id
         WHERE c.user_id  = :user_id
 `, {

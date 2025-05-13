@@ -49,7 +49,7 @@ CartItem.init(
   {
     sequelize,
     modelName: 'CartItem',
-    tableName: 'cartitem',
+    tableName: 'cartitems',
     timestamps: true,
     paranoid: true,
   }
