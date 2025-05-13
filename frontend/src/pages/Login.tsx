@@ -10,7 +10,7 @@ type Inputs = {
 
 export default function Login() {
     const navigate = useNavigate();
-    const { user, setUser } = useUser();
+    const { setUser } = useUser();
     const {
         register,
         handleSubmit,
