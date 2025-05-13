@@ -32,6 +32,7 @@ export const getCart = asyncHandler(async (req: Request, res: Response) => {
         FROM cartitems c
         JOIN products p ON p.id = c.product_id
         WHERE c.user_id  = :user_id
+        AND c.deletedAt IS NULL
 `, {
         replacements: { user_id: req.user.id },
         type: QueryTypes.SELECT
@@ -64,6 +65,7 @@ export const deleteCartItemByID = asyncHandler(async (req: Request, res: Respons
     if (!cartItem) throw new ApiError(httpStatus.NOT_FOUND, "Cart item not found");
     //deleting item
     cartItem.destroy();
+    cartItem.save();
 
     return res.status(httpStatus.OK).send(new ApiResponse("Deleted item successfully", { cartItem }));
 });
