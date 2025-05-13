@@ -12,7 +12,6 @@ import LogoutBtn from './components/LogoutBtn'
 
 function App() {
   const [user, setUser] = useState<UserAttributes | null>(null);
-
   return (
     <>
       <UserContext.Provider value={{ user, setUser }}>
