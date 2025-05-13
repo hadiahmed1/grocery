@@ -10,15 +10,14 @@ import ProtectedRoute from './components/ProtectedRoute'
 import Orders from './pages/Orders'
 import LogoutBtn from './components/LogoutBtn'
 import { CartProvider } from './contexts/CartContext'
+import { OrderProvider } from './contexts/OrderContext'
 
 function App() {
   const [user, setUser] = useState<UserAttributes | null>(null);
   return (
-    <>
-
-      <UserContext.Provider value={{ user, setUser }}>
-        <CartProvider>
-
+    <UserContext.Provider value={{ user, setUser }}>
+      <CartProvider>
+        <OrderProvider>
           <nav className='w-full flex justify-between px-5'>
             <Link className='text-2xl' to='/'>Home</Link>
             <Link className='text-2xl' to='/cart'>Cart</Link>
@@ -37,10 +36,9 @@ function App() {
               <Route path='/orders' element={<Orders />} />
             </Route>
           </Routes>
-        </CartProvider>
-
-      </UserContext.Provider>
-    </>
+        </OrderProvider>
+      </CartProvider>
+    </UserContext.Provider>
   )
 }
 
