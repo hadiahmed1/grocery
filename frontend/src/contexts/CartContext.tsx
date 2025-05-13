@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import axiosInstance from "../lib/axiosInstance";
 import useUser from "../hooks/useUser";
 import type CartItemAttributes from "../types/cartItem.type";
