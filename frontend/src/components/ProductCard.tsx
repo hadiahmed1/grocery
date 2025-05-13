@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import type ProductAttributes from "../types/product.type";
-import useAddToCart from "../hooks/useAddToCart";
 import useCartItem from "../hooks/useCartItems";
 
 const ProductCard = ({ product, cartItemId = undefined }: { product: ProductAttributes, cartItemId?: string | undefined }) => {
-    console.log(product);
     const [quantity, setQuantity] = useState(product.count ?? 1);
     const [showFullDescription, setShowFullDescription] = useState(false);
 
@@ -14,7 +12,8 @@ const ProductCard = ({ product, cartItemId = undefined }: { product: ProductAttr
 
     const toggleDescription = () => setShowFullDescription(!showFullDescription);
 
-    const deleteCartItem = useCartItem().deleteItem;
+    const cart = useCartItem();
+
 
     const discountedPrice = (
         product.mrp -
@@ -98,7 +97,7 @@ const ProductCard = ({ product, cartItemId = undefined }: { product: ProductAttr
                             className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-medium
               hover:bg-blue-700 transform transition-all duration-300 hover:scale-[1.02]
               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                            onClick={() => useAddToCart(product.id, quantity)}
+                            onClick={() => cart.addItem(product.id, quantity)}
                         >
                             Add to Cart
                         </button>}
@@ -114,7 +113,7 @@ const ProductCard = ({ product, cartItemId = undefined }: { product: ProductAttr
                             className="w-full bg-red-600 text-white py-3 px-6 rounded-lg font-medium
               hover:bg-red-700 transform transition-all duration-300 hover:scale-[1.02]
               focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-                            onClick={() => deleteCartItem(cartItemId)}
+                            onClick={() => cart.deleteItem(cartItemId)}
                         >
                             Remove from Cart
                         </button>}

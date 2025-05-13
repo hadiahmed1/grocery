@@ -31,6 +31,18 @@ const useCartItem = () => {
             isMounted = false;
         };
     }, []);
+
+    //add to Cart
+    const addItem = async (product_id: string, count: number = 1) => {
+        try {
+            const { data } = await axiosInstance.post('cart/', { product_id, count });
+            console.log(data)
+            return data.data.success;
+        } catch (error) {
+            return false;
+        }
+    }
+
     //function to delete
     const deleteItem = async (id: string) => {
         try {
@@ -42,7 +54,7 @@ const useCartItem = () => {
         }
     };
 
-    return { cartItems, loading, error, deleteItem };
+    return { cartItems, loading, error, deleteItem, addItem };
 };
 
 export default useCartItem;
