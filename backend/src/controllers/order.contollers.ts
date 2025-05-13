@@ -121,20 +121,17 @@ export const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
     const { user } = req;
     if (!user) throw new ApiError(httpStatus.NOT_FOUND, "User not found");
     //finding order
-    const orders = await Order.findAll({
-        where: {
-            user_id: user.id
-        }
+    const orders = await sequelize.query(`
+        SELECT o.id,o.status, o.delivery_date, o.createdAt, 
+        SUM(oi.price) as total  FROM 
+        orders o JOIN orderitems oi
+        ON o.id = oi.order_id
+        WHERE o.user_id = :userId
+        GROUP BY o.id;
+`, {
+        replacements: { userId: user.id },
+        type: QueryTypes.SELECT
     });
-    const orders_withitems = await Promise.all(
-        orders.map(async (order) => {
-            const orderItems = await OrderItem.findAll({ where: { order_id: order.id } });
-            const total = orderItems.reduce((sum, orderItem) => sum + Number(orderItem.dataValues.price), 0);
-            const { id, user_id, status, delivery_date, createdAt, deletedAt, updatedAt } = order;
-            return {
-                id, user_id, status, delivery_date, createdAt, deletedAt, updatedAt, total, orderItems
-            }
-        })
-    )
-    return res.status(httpStatus.OK).send(new ApiResponse("Order", { orders: orders_withitems }));
+    
+    return res.status(httpStatus.OK).send(new ApiResponse("Order", { orders }));
 });
