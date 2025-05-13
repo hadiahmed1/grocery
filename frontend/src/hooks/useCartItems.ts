@@ -31,8 +31,18 @@ const useCartItem = () => {
             isMounted = false;
         };
     }, []);
+    //function to delete
+    const deleteItem = async (id: string) => {
+        try {
+            await axiosInstance.delete(`/cart/${id}`);
+            setCartItems(prev => prev.filter(item => item.id !== id));
+            console.log(id, " deleted")
+        } catch (err) {
+            console.log("Failed to delete item:", err);
+        }
+    };
 
-    return { cartItems, loading, error };
+    return { cartItems, loading, error, deleteItem };
 };
 
 export default useCartItem;

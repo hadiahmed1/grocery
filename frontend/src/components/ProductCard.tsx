@@ -2,15 +2,19 @@ import { useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import type ProductAttributes from "../types/product.type";
 import useAddToCart from "../hooks/useAddToCart";
+import useCartItem from "../hooks/useCartItems";
 
 const ProductCard = ({ product, cartItemId = undefined }: { product: ProductAttributes, cartItemId?: string | undefined }) => {
-    const [quantity, setQuantity] = useState(product.quantity || 1);
+    console.log(product);
+    const [quantity, setQuantity] = useState(product.count ?? 1);
     const [showFullDescription, setShowFullDescription] = useState(false);
 
     const incrementQuantity = () => setQuantity((prev) => prev + 1);
     const decrementQuantity = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
 
     const toggleDescription = () => setShowFullDescription(!showFullDescription);
+
+    const deleteCartItem = useCartItem().deleteItem;
 
     const discountedPrice = (
         product.mrp -
@@ -110,7 +114,7 @@ const ProductCard = ({ product, cartItemId = undefined }: { product: ProductAttr
                             className="w-full bg-red-600 text-white py-3 px-6 rounded-lg font-medium
               hover:bg-red-700 transform transition-all duration-300 hover:scale-[1.02]
               focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-                            onClick={() => console.log(`Ordered`)}
+                            onClick={() => deleteCartItem(cartItemId)}
                         >
                             Remove from Cart
                         </button>}
