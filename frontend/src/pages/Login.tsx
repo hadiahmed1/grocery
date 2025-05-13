@@ -1,6 +1,7 @@
 import { useForm, type SubmitHandler } from "react-hook-form"
 import axiosInstance from "../lib/axiosInstance"
 import useUser from "../hooks/useUser"
+import { useNavigate } from "react-router-dom"
 
 type Inputs = {
     email: string
@@ -8,6 +9,7 @@ type Inputs = {
 }
 
 export default function Login() {
+    const navigate = useNavigate();
     const { user, setUser } = useUser();
     const {
         register,
@@ -17,8 +19,9 @@ export default function Login() {
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         const res = await axiosInstance.post('user/signin', data);
         setUser(res.data.data.user);
-        console.log(user);
-        console.log(res)
+        console.log("Login Res",res);
+
+        if(res.data.success) navigate('/');//navigation to home
     }
 
     return (
