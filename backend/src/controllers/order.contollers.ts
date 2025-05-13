@@ -126,5 +126,15 @@ export const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
             user_id: user.id
         }
     });
-    return res.status(httpStatus.OK).send(new ApiResponse("Order", { orders }));
+    const orders_withitems = await Promise.all(
+        orders.map(async (order) => {
+            const orderItems = await OrderItem.findAll({ where: { order_id: order.id } });
+            const total = orderItems.reduce((sum, orderItem) => sum + Number(orderItem.dataValues.price), 0);
+            const { id, user_id, status, delivery_date, createdAt, deletedAt, updatedAt } = order;
+            return {
+                id, user_id, status, delivery_date, createdAt, deletedAt, updatedAt, total, orderItems
+            }
+        })
+    )
+    return res.status(httpStatus.OK).send(new ApiResponse("Order", { orders: orders_withitems }));
 });
