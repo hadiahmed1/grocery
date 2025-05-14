@@ -1,6 +1,5 @@
 import { useForm, type SubmitHandler } from "react-hook-form"
 import axiosInstance from "../lib/axiosInstance"
-import useUser from "../hooks/useUser"
 import { Link, useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import { AxiosError } from "axios"
@@ -12,7 +11,6 @@ type Inputs = {
 
 const Register = () => {
     const navigate = useNavigate();
-    const { setUser } = useUser();
     const {
         register,
         handleSubmit,
