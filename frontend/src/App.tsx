@@ -37,7 +37,7 @@ function App() {
               <Route path='/orders' element={<Orders />} />
             </Route>
           </Routes>
-          <ToastContainer />
+          <ToastContainer theme='dark' />
         </OrderProvider>
       </CartProvider>
     </UserContext.Provider>
