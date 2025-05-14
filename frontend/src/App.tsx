@@ -14,6 +14,7 @@ import { ToastContainer } from 'react-toastify'
 import NavBar from './components/NavBar'
 import MyProducts from './pages/MyProducts'
 import SellerProtectedRoute from './components/SellerProtectedrRoute'
+import Register from './pages/Register'
 
 function App() {
   const [user, setUser] = useState<UserAttributes | null>(null);
@@ -26,8 +27,8 @@ function App() {
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
             <Route element={<ProtectedRoute />} >
-
               <Route path='/cart' element={<Cart />} />
             </Route>
             <Route element={<ProtectedRoute />} >

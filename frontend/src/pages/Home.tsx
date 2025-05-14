@@ -7,7 +7,6 @@ const Home = () => {
     const getProducts = async () => {
         const res = await axiosInstance.get('/product');
         const products = res.data.data.products as ProductAttributes[];
-        console.log(products);
         setProducts(products);
     }
     useEffect(() => {
