@@ -2,6 +2,9 @@ import { createContext, useEffect, useState } from "react";
 import axiosInstance from "../lib/axiosInstance";
 import useUser from "../hooks/useUser";
 import type OrderAttributes from "../types/order.type";
+import { useLocation } from "react-router-dom";
+import { useCart } from "../hooks/useCart";
+import { toast } from "react-toastify";
 
 type OrderContextType = {
     orders: OrderAttributes[];
@@ -20,6 +23,8 @@ export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const { user } = useUser();
+    const location = useLocation();
+    const { refetch, cartItems } = useCart();
 
     const fetchOrder = async () => {
         if (!user) return;
@@ -27,25 +32,27 @@ export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
         try {
             const res = await axiosInstance.get("order/");
             setOrderItems(res.data.data.orders);
-        } catch (error) {
-            console.log(error)
-            setError("Failed to load orders:");
+        } catch {
+            setError("Failed to load orders");
         } finally {
             setLoading(false);
         }
     };
 
+    useEffect(() => { setError(null) }, [location]);
     useEffect(() => {
-        fetchOrder();
-    }, [user]);
+        if (error) toast.error("ERROR" + error);
+    }, [error])
 
     const orderProduct = async (product_id: string, quantity: number = 1) => {
         try {
             setLoading(true);
             const res = await axiosInstance.post("/order/product", { product_id, quantity });
             await fetchOrder(); // refresh state
+            toast.success("Order placed");
             return res.data.data.success;
         } catch {
+            setError("Unable to order Product");
             return false;
         } finally {
             setLoading(false);
@@ -57,8 +64,9 @@ export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
             setLoading(true);
             await axiosInstance.patch(`/order/${id}`);
             await fetchOrder();
-        } catch (err) {
-            console.error("Cancel failed:", err);
+            toast.success("Order Cancelled");
+        } catch {
+            setError("Unable to cancelOrder");
         } finally {
             setLoading(false);
         }
@@ -67,10 +75,15 @@ export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
     const orderCart = async () => {
         try {
             setLoading(true);
-            const res = await axiosInstance.post("/order/cart");
-            await fetchOrder(); // refresh state
-            return res.data.data.success;
+            if (cartItems.length > 0) {
+                const res = await axiosInstance.post("/order/cart");
+                await fetchOrder(); // refresh state
+                await refetch(); //refresh Cart
+                toast.success("Cart Ordered");
+                return res.data.data.success;
+            } else setError("Can't order: Cart is empty");
         } catch {
+            setError("Unable to Order Cart");
             return false;
         } finally {
             setLoading(false);
