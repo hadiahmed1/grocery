@@ -2,6 +2,8 @@ import { createContext, useEffect, useState } from "react";
 import axiosInstance from "../lib/axiosInstance";
 import useUser from "../hooks/useUser";
 import type CartItemAttributes from "../types/cartItem.type";
+import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
 
 type CartContextType = {
     cartItems: CartItemAttributes[];
@@ -18,8 +20,8 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     const [cartItems, setCartItems] = useState<CartItemAttributes[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const location = useLocation();
     const { user } = useUser();
-
     const fetchCart = async () => {
         if (!user) return;
         setLoading(true);
@@ -33,10 +35,13 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
             setLoading(false);
         }
     };
-
+    
     useEffect(() => {
-        fetchCart();
-    }, [user]);
+        setError(null);
+    }, [location]);
+    useEffect(() => {
+        if (error) toast.error("ERROR:"+error);
+    }, [error]);
 
     const addItem = async (product_id: string, count: number = 1) => {
         try {
@@ -45,6 +50,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
             await fetchCart(); // refresh state
             return res.data.data.success;
         } catch {
+            setError("Unable to add Item to Cart")
             return false;
         } finally {
             setLoading(false);
@@ -58,6 +64,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
             setCartItems((prev) => prev.filter((item) => item.id !== id));
         } catch (err) {
             console.error("Delete failed:", err);
+            setError("Unable to remove Item from cart")
         } finally {
             setLoading(false);
         }
