@@ -47,6 +47,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         try {
             setLoading(true);
             const res = await axiosInstance.post("/cart/", { product_id, count });
+            toast.success("Item added to cart");
             await fetchCart(); // refresh state
             return res.data.data.success;
         } catch {
@@ -61,6 +62,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         try {
             setLoading(true);
             await axiosInstance.delete(`/cart/${id}`);
+            toast.success("Item removed from cart")
             setCartItems((prev) => prev.filter((item) => item.id !== id));
         } catch (err) {
             console.error("Delete failed:", err);
