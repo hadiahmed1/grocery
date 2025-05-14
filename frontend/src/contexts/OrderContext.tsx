@@ -5,6 +5,7 @@ import type OrderAttributes from "../types/order.type";
 import { useLocation } from "react-router-dom";
 import { useCart } from "../hooks/useCart";
 import { toast } from "react-toastify";
+import { AxiosError } from "axios";
 
 type OrderContextType = {
     orders: OrderAttributes[];
@@ -32,8 +33,11 @@ export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
         try {
             const res = await axiosInstance.get("order/");
             setOrderItems(res.data.data.orders);
-        } catch {
-            setError("Failed to load orders");
+        } catch (error) {
+            if (error instanceof AxiosError)
+                setError(error.response?.data.message || "Unable to order Product");
+            else
+                setError("Failed to load orders");
         } finally {
             setLoading(false);
         }
@@ -51,8 +55,11 @@ export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
             await fetchOrder(); // refresh state
             toast.success("Order placed");
             return res.data.data.success;
-        } catch {
-            setError("Unable to order Product");
+        } catch (error) {
+            if (error instanceof AxiosError)
+                setError(error.response?.data.message || "Unable to order Product");
+            else
+                setError("Unable to order Product");
             return false;
         } finally {
             setLoading(false);
@@ -65,8 +72,11 @@ export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
             await axiosInstance.patch(`/order/${id}`);
             await fetchOrder();
             toast.success("Order Cancelled");
-        } catch {
-            setError("Unable to cancelOrder");
+        } catch (error) {
+            if (error instanceof AxiosError)
+                setError(error.response?.data.message || "Unable to cancel order");
+            else
+                setError("Unable to cancelOrder");
         } finally {
             setLoading(false);
         }
@@ -82,8 +92,11 @@ export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
                 toast.success("Cart Ordered");
                 return res.data.data.success;
             } else setError("Can't order: Cart is empty");
-        } catch {
-            setError("Unable to Order Cart");
+        } catch (error) {
+            if (error instanceof AxiosError)
+                setError(error.response?.data.message || "Unable to order Cart");
+            else
+                setError("Unable to Order Cart");
             return false;
         } finally {
             setLoading(false);
