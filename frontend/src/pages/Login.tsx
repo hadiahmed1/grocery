@@ -2,7 +2,8 @@ import { useForm, type SubmitHandler } from "react-hook-form"
 import axiosInstance from "../lib/axiosInstance"
 import useUser from "../hooks/useUser"
 import { useNavigate } from "react-router-dom"
-
+import { toast } from "react-toastify"
+import { AxiosError } from "axios"
 type Inputs = {
     email: string
     password: string
@@ -17,11 +18,17 @@ export default function Login() {
         formState: { errors },
     } = useForm<Inputs>()
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
-        const res = await axiosInstance.post('user/signin', data);
-        setUser(res.data.data.user);
-        console.log("Login Res",res);
-
-        if(res.data.success) navigate('/');//navigation to home
+        try {
+            const res = await axiosInstance.post('user/signin', data);
+            setUser(res.data.data.user);
+            if (res.data.success) {
+                toast.success("Loggin successfull")
+                navigate('/');//navigation to home
+            }
+        } catch (error) {
+            if( error instanceof AxiosError) toast.error(error.response?.data.message || "Unable to Login");
+            else toast.error("Something went wrong. Try agin latter.")
+        }
     }
 
     return (
