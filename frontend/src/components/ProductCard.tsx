@@ -40,7 +40,7 @@ const ProductCard = ({ product, cartItemId = undefined }: { product: ProductAttr
                     <div className="md:w-1/2 p-6 space-y-4">
                         <div className="flex justify-between items-start">
                             <h1 className="text-2xl font-bold text-white truncate">
-                                {product.name}
+                                {product.name} <span className="text-xl text-gray-400 font-light">{(product.quantity || 1) + " " + (product.unit || "")}</span>
                             </h1>
                         </div>
                         {/* Toggle Description */}
