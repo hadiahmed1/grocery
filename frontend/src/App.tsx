@@ -12,6 +12,8 @@ import { CartProvider } from './contexts/CartContext'
 import { OrderProvider } from './contexts/OrderContext'
 import { ToastContainer } from 'react-toastify'
 import NavBar from './components/NavBar'
+import MyProducts from './pages/MyProducts'
+import SellerProtectedRoute from './components/SellerProtectedrRoute'
 
 function App() {
   const [user, setUser] = useState<UserAttributes | null>(null);
@@ -30,6 +32,9 @@ function App() {
             </Route>
             <Route element={<ProtectedRoute />} >
               <Route path='/orders' element={<Orders />} />
+            </Route>
+            <Route element={<SellerProtectedRoute />}>
+              <Route path='/myproducts' element={<MyProducts />} />
             </Route>
           </Routes>
           <ToastContainer theme='dark' />
