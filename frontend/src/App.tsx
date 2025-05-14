@@ -1,5 +1,5 @@
 import './App.css'
-import { Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import Cart from './pages/Cart'
 import Home from './pages/Home'
 import Login from './pages/Login'
@@ -21,7 +21,6 @@ function App() {
         <OrderProvider>
 
           <NavBar />
-\
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
@@ -34,6 +33,7 @@ function App() {
             </Route>
           </Routes>
           <ToastContainer theme='dark' />
+
         </OrderProvider>
       </CartProvider>
     </UserContext.Provider>
