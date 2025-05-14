@@ -8,10 +8,10 @@ import { useState } from 'react'
 import type { UserAttributes } from './types/user.type'
 import ProtectedRoute from './components/ProtectedRoute'
 import Orders from './pages/Orders'
-import LogoutBtn from './components/LogoutBtn'
 import { CartProvider } from './contexts/CartContext'
 import { OrderProvider } from './contexts/OrderContext'
 import { ToastContainer } from 'react-toastify'
+import NavBar from './components/NavBar'
 
 function App() {
   const [user, setUser] = useState<UserAttributes | null>(null);
@@ -19,13 +19,9 @@ function App() {
     <UserContext.Provider value={{ user, setUser }}>
       <CartProvider>
         <OrderProvider>
-          <nav className='w-full flex justify-between px-5'>
-            <Link className='text-2xl' to='/'>Home</Link>
-            <Link className='text-2xl' to='/cart'>Cart</Link>
-            <Link className='text-2xl' to='/orders'>My Orders</Link>
-            {user === null ? <Link className='text-2xl text-emerald-300' to='/login'>Login</Link> : <LogoutBtn />}
-          </nav>
 
+          <NavBar />
+\
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />

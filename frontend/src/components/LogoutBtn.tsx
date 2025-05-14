@@ -12,6 +12,6 @@ const LogoutBtn = () => {
             }
         });
     }
-    return (<Link to='/login' onClick={() => logout()} className='text-2xl text-red-500'>Logout</Link>)
+    return (<Link to='/login' onClick={() => logout()} className='text-xl text-red-500'>Logout</Link>)
 }
 export default LogoutBtn;
