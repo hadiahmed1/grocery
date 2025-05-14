@@ -11,6 +11,7 @@ import Orders from './pages/Orders'
 import LogoutBtn from './components/LogoutBtn'
 import { CartProvider } from './contexts/CartContext'
 import { OrderProvider } from './contexts/OrderContext'
+import { ToastContainer } from 'react-toastify'
 
 function App() {
   const [user, setUser] = useState<UserAttributes | null>(null);
@@ -36,6 +37,7 @@ function App() {
               <Route path='/orders' element={<Orders />} />
             </Route>
           </Routes>
+          <ToastContainer />
         </OrderProvider>
       </CartProvider>
     </UserContext.Provider>
