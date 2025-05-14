@@ -3,6 +3,6 @@ export default interface OrderAttributes {
     status: 'ordered' | 'delivered' | 'cancelled',
     total: number,
     delivery_date: Date,
-    createdAt?: Date;
+    createdAt: Date;
 }
 
