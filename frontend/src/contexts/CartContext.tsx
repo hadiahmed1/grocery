@@ -35,13 +35,13 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
             setLoading(false);
         }
     };
-    
     useEffect(() => {
+        if (error) toast.error("ERROR:" + error);
+    }, [error]);
+    useEffect(() => {
+        fetchCart();
         setError(null);
     }, [location]);
-    useEffect(() => {
-        if (error) toast.error("ERROR:"+error);
-    }, [error]);
 
     const addItem = async (product_id: string, count: number = 1) => {
         try {
