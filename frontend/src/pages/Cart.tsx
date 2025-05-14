@@ -1,4 +1,5 @@
 import CartItemCard from "../components/CartItemCard";
+import OrderCartBtn from "../components/OrderCartBtn";
 import { useCart } from "../hooks/useCart";
 
 const Cart = () => {
@@ -9,6 +10,7 @@ const Cart = () => {
 
     return (
         <div>
+            <OrderCartBtn />
             {cartItems.map(item => <CartItemCard key={item.id} cartItem={item} />)}
         </div>
     );
