@@ -99,7 +99,7 @@ const ProductForm = ({ onSubmit, product }: ProductFormProps) => {
                     <label htmlFor="address_id" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address ID</label>
                     <select {...register("address_id")} id="address_id"
                         className={inputstyle}>
-                        {addresses.map(address => <option value={address.id}>{address.name}</option>)}
+                        {addresses.map(address => <option key={address.id} value={address.id}>{address.name}</option>)}
                     </select>
                 </div>
 
