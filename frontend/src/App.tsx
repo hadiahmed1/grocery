@@ -15,6 +15,8 @@ import NavBar from './components/NavBar'
 import MyProducts from './pages/MyProducts'
 import SellerProtectedRoute from './components/SellerProtectedrRoute'
 import Register from './pages/Register'
+import MyProductList from './components/MyProductsList'
+import AddProductForm from './components/AddProductForm'
 
 function App() {
   const [user, setUser] = useState<UserAttributes | null>(null);
@@ -35,7 +37,10 @@ function App() {
               <Route path='/orders' element={<Orders />} />
             </Route>
             <Route element={<SellerProtectedRoute />}>
-              <Route path='/myproducts' element={<MyProducts />} />
+              <Route path='/myproducts' element={<MyProducts />} >
+                <Route index element={<MyProductList />} />
+                <Route path='add' element={<AddProductForm />} />
+              </Route>
             </Route>
           </Routes>
           <ToastContainer theme='dark' />
