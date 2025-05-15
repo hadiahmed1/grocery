@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axiosInstance from "../lib/axiosInstance";
 import useUser from "../hooks/useUser";
 import type OrderAttributes from "../types/order.type";
@@ -6,18 +6,9 @@ import { useLocation } from "react-router-dom";
 import { useCart } from "../hooks/useCart";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
+import { OrderContext } from "./OrderContext";
 
-type OrderContextType = {
-    orders: OrderAttributes[];
-    loading: boolean;
-    error: string | null;
-    orderProduct: (product_id: string, quantity?: number) => Promise<boolean>;
-    orderCart: () => Promise<boolean>
-    cancelOrder: (id: string) => Promise<void>;
-    refetch: () => Promise<void>;
-};
 
-export const OrderContext = createContext<OrderContextType | null>(null);
 
 export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
     const [orderItems, setOrderItems] = useState<OrderAttributes[]>([]);
