@@ -1,19 +1,30 @@
-import { useForm } from 'react-hook-form';
+import { useForm, type SubmitHandler } from 'react-hook-form';
 import useAddress from '../hooks/useAddress';
 import type ProductAttributes from '../types/product.type';
 const inputstyle = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 
+
+type ProductFormData = {
+    name?: string;
+    mrp?: string;
+    description?: string;
+    discount_percent?: string;
+    quantity?: string;
+    unit?: string;
+    stock?: string;
+    address_id?: string;
+    photo?: FileList;
+};
+
+
 type ProductFormProps = {
-    onSubmit: (data: {
-        [x: string]: string | Blob;
-        photo?: any;
-    }) => Promise<void>;
+    onSubmit: SubmitHandler<ProductFormData>;
     product?: ProductAttributes;
-}
+};
 
 const ProductForm = ({ onSubmit, product }: ProductFormProps) => {
     const addresses = useAddress();
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm<ProductFormData>();
     return (
         <div className="flex flex-col items-center">
             <form className="max-w-sm mx-auto w-full" onSubmit={handleSubmit(onSubmit)}>
