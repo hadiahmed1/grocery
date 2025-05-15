@@ -11,9 +11,9 @@ export default interface ProductAttributes {
     description?: string | null;
     stock?: number;
     address_id?: string | null;
-    createdAt?: Date;
-    updatedAt?: Date;
-    deletedAt?: Date | null;
+    createdAt: Date;
+    updatedAt: Date;
+    deletedAt: Date | null;
 }
 
 export type ProductCreationAttributes = Omit<ProductAttributes,
