@@ -1,21 +1,11 @@
-import { createContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axiosInstance from "../lib/axiosInstance";
 import useUser from "../hooks/useUser";
 import type CartItemAttributes from "../types/cartItem.type";
 import { toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
 import { AxiosError } from "axios";
-
-type CartContextType = {
-    cartItems: CartItemAttributes[];
-    loading: boolean;
-    error: string | null;
-    addItem: (product_id: string, count?: number) => Promise<boolean>;
-    deleteItem: (id: string) => Promise<void>;
-    refetch: () => Promise<void>;
-};
-
-export const CartContext = createContext<CartContextType | null>(null);
+import { CartContext } from "./CartContext";
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     const [cartItems, setCartItems] = useState<CartItemAttributes[]>([]);
@@ -40,7 +30,8 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         if (error) toast.error("ERROR:" + error);
     }, [error]);
     useEffect(() => {
-        fetchCart();
+        if (location.pathname === '/cart')
+            fetchCart();
         setError(null);
     }, [location]);
 
