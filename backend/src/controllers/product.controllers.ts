@@ -8,6 +8,7 @@ import httpStatus from '../constants/httpStatusCode';
 import Address from '../models/adress.model';
 import uploadToCloudinary from '../helper/uploadToCloudinary';
 
+//seller
 export const createProduct = asyncHandler(async (req: Request, res: Response) => {
     //extraction product object
     const product: ProductCreationAttributes = req.body;
@@ -38,17 +39,7 @@ export const createProduct = asyncHandler(async (req: Request, res: Response) =>
     return res.status(httpStatus.OK).send(new ApiResponse("Product created successfully", { product: newProduct }));
 });
 
-export const getProduct = asyncHandler(async (_req: Request, res: Response) => {
-    const products = await Product.findAll();//all products
-    return res.status(httpStatus.OK).send(new ApiResponse("Product created successfully", { products }));
-});
-
-export const getProductById = asyncHandler(async (req: Request, res: Response) => {
-    const product = await Product.findByPk(req.params.id);
-    if (!product) throw new ApiError(httpStatus.NOT_FOUND, "No product found");
-    return res.status(httpStatus.OK).send(new ApiResponse("Product created successfully", { product }));
-});
-
+//seller
 export const editProductById = asyncHandler(async (req: Request, res: Response) => {
     const product = await Product.findByPk(req.params.id);
     //if product not found || other seller's product
@@ -57,4 +48,22 @@ export const editProductById = asyncHandler(async (req: Request, res: Response) 
     product.set(req.body);
     product.save();
     return res.status(httpStatus.OK).send(new ApiResponse("Product edited successfully", { product }));
+});
+//seller
+export const getMyProducts = asyncHandler(async (req: Request, res: Response) => {
+    const { user } = req;
+    const products = await Product.findAll({ where: { seller_id: user?.id } });//sellers products
+    return res.status(httpStatus.OK).send(new ApiResponse(products.length + " Products", { products }));
+});
+
+//open
+export const getProducts = asyncHandler(async (_req: Request, res: Response) => {
+    const products = await Product.findAll();//all products
+    return res.status(httpStatus.OK).send(new ApiResponse(products.length + " Products", { products }));
+});
+//open
+export const getProductById = asyncHandler(async (req: Request, res: Response) => {
+    const product = await Product.findByPk(req.params.id);
+    if (!product) throw new ApiError(httpStatus.NOT_FOUND, "No product found");
+    return res.status(httpStatus.OK).send(new ApiResponse("Product:" + product.id, { product }));
 });

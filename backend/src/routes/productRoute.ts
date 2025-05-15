@@ -1,5 +1,5 @@
 import express from 'express';
-import { createProduct, editProductById, getProduct, getProductById } from '../controllers/product.controllers';
+import { createProduct, editProductById, getProducts, getProductById, getMyProducts } from '../controllers/product.controllers';
 import { verifySeller } from '../middleware/verifyToken'
 import validateData from '../middleware/validateSchema';
 import productCreationSchema from '../types/joi/productCreationSchema';
@@ -10,8 +10,9 @@ const productRouter = express.Router();
 //protected routes
 productRouter.post('/', verifySeller, upload.fields([{ name: "photo", maxCount: 1 }]), validateData(productCreationSchema), createProduct);
 productRouter.patch('/:id', verifySeller, validateData(productEditSchema), editProductById);
+productRouter.get('/myproducts', verifySeller, getMyProducts);
 //public routes
-productRouter.get('/', getProduct);
+productRouter.get('/', getProducts);
 productRouter.get('/:id', getProductById);
 
 export default productRouter;
