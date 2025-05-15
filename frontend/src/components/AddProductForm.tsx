@@ -1,9 +1,14 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useForm } from 'react-hook-form';
+import useAddress from '../hooks/useAddress';
+import { toast } from 'react-toastify';
 const inputstyle = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+
 const AddProductForm = () => {
+    const addresses = useAddress();
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const onSubmit = async (data: { [x: string]: string | Blob; photo?: any; }) => {
+
+    const addProduct = async (data: { [x: string]: string | Blob; photo?: any; }) => {
         const formData = new FormData();
         Object.keys(data).forEach((key) => {
             if (key === "photo") {
@@ -18,22 +23,18 @@ const AddProductForm = () => {
                 formData,
                 {
                     withCredentials: true,
-                    headers: {
-                        "Content-Type": "multipart/form-data"
-                    }
+                    headers: { "Content-Type": "multipart/form-data" }
                 }
             );
-            console.log("Success:", res.data);
-            console.log(res);
-
         } catch (error) {
-            console.error("Error uploading product:", error);
+            if (error instanceof AxiosError) toast.error(error.response?.data.message);
+            else toast.error("Couldn't add product")
         }
     };
 
     return (
         <div className="flex flex-col items-center">
-            <form className="max-w-sm mx-auto w-full" onSubmit={handleSubmit(onSubmit)}>
+            <form className="max-w-sm mx-auto w-full" onSubmit={handleSubmit(addProduct)}>
                 {/* NAME */}
                 <div className="mb-5">
                     <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Name</label>
@@ -57,7 +58,7 @@ const AddProductForm = () => {
                 {/* DESCRIPTION */}
                 <div className="mb-5">
                     <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                    <input {...register("description", { required: true, max:250 })}
+                    <input {...register("description", { required: true, max: 250 })}
                         type="text" id="description"
                         className={inputstyle}
                         placeholder="Product description" />
@@ -113,11 +114,10 @@ const AddProductForm = () => {
                     <label htmlFor="address_id" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address ID</label>
                     <select {...register("address_id")} id="address_id"
                         className={inputstyle}>
-                        <option value="3923c037-41b8-4274-878d-cde17f522b12">adress 1</option>
-                        <option value="5f4429e7-c889-4881-9063-d5b3a0ceacc3">adress 2</option>
-                        <option value="bfbe6e53-b609-40df-aa5b-6c6af10cc301">adress 3</option>
+                        {addresses.map(address => <option value={address.id}>{address.name}</option>)}
                     </select>
                 </div>
+
                 {/* PHOTO UPLOAD */}
                 <div className="mb-5">
                     <label htmlFor="photo" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -134,6 +134,7 @@ const AddProductForm = () => {
                     />
                     {errors.photo && <span className="text-red-500 text-sm">Photo is required</span>}
                 </div>
+
                 {/* SUBMIT */}
                 <button type="submit"
                     className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none 
