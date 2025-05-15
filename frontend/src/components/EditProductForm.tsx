@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
-import ProductForm from './ProductForm';
+import ProductForm, { type ProductFormData } from './ProductForm';
 import { useParams } from 'react-router-dom';
 import { useSellerProducts } from '../hooks/useSellerProducts';
 import type ProductAttributes from '../types/product.type';
@@ -11,27 +11,28 @@ const EditProductForm = () => {
     const { products } = useSellerProducts();
     const product = products.find(product => product.id === productID) as ProductAttributes;
     const editProduct = async (
-        data: { [x: string]: any; photo?: FileList },
+        data: ProductFormData,
         product: ProductAttributes
     ) => {
         const formData = new FormData();
-
-        Object.keys(data).forEach((key) => {
+        //creating form data
+        Object.entries(data).forEach(([key, value]) => {
             if (key === "photo") {
-                if (data.photo && data.photo.length > 0) {
-                    formData.append("photo", data.photo[0]); // only if new file selected
+                if (value instanceof FileList && value.length > 0) {
+                    formData.append("photo", value[0]);
                 }
-            } else {
-                const newValue = String(data[key]);
-                const isChanged = product
-                    ? key in product && newValue !== String((product as any)[key] ?? "")
-                    : true;
+            } else if (typeof value !== "undefined") {
+                const newValue = String(value);
+                const oldValue = product ? String((product as any)[key] ?? "") : "";
+
+                const isChanged = product ? newValue !== oldValue : true;
 
                 if (newValue && isChanged) {
                     formData.append(key, newValue);
                 }
             }
         });
+
 
         try {
             const res = await axios.patch(

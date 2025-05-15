@@ -1,16 +1,18 @@
 import axios, { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
-import ProductForm from './ProductForm';
+import ProductForm, { type ProductFormData } from './ProductForm';
 
 const AddProductForm = () => {
 
-    const addProduct = async (data: { [x: string]: string | Blob; photo?: any; }) => {
+    const addProduct = async (data: ProductFormData) => {
         const formData = new FormData();
-        Object.keys(data).forEach((key) => {
-            if (key === "photo") {
-                formData.append("photo", data.photo[0]);
-            } else {
-                formData.append(key, data[key]);
+        Object.entries(data).forEach(([key, value]) => {
+            if (value === undefined || value === null) return;
+
+            if (key === "photo" && value instanceof FileList && value.length > 0) {
+                formData.append("photo", value[0]);
+            } else if (typeof value === "string") {
+                formData.append(key, value);
             }
         });
         try {
