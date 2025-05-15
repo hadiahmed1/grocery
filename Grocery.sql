@@ -21,7 +21,7 @@ ON c.user_id = u.id;
 
 DESC address;
 SELECT * FROM address
-WHERE user_id = "018d03ea-99ca-4f01-8765-554c2d53e497";
+WHERE user_id = "85aefd18-2d04-4065-983d-a9601bedde23";
 
 DESC orderitems;
 SELECT * FROM orderitems;
