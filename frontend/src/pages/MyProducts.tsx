@@ -1,4 +1,4 @@
-import AddProductForm from "../components/AddProductForm";
+import { Link, Outlet } from "react-router-dom";
 import { useSellerProducts } from "../hooks/useSellerProducts";
 
 const MyProducts = () => {
@@ -9,11 +9,8 @@ const MyProducts = () => {
     return (
         <>
             <h1 className="text-5xl">Seller Dashboard</h1>
-            {/* <AddProductForm /> */}
-            <div>
-                <h2 className="text-3xl">My Products</h2>
-                {products.map(product => <p>{product.name}</p>)}
-            </div>
+            <Link to='add'>Add Product</Link>
+            <Outlet />
         </>
     )
 }
