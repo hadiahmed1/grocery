@@ -14,7 +14,7 @@ type SellerProductsContextType = {
 
 export const SellerProductsContext = createContext<SellerProductsContextType | null>(null);
 
-export const MyProductsProvider = ({ children }: { children: React.ReactNode }) => {
+export const SellerProductsProvider = ({ children }: { children: React.ReactNode }) => {
     const [products, setProducts] = useState<ProductAttributes[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -22,11 +22,13 @@ export const MyProductsProvider = ({ children }: { children: React.ReactNode }) 
     const location = useLocation();
 
     const fetchMyProducts = async () => {
+        console.log("fetching....")
         if (!user) return;
         setLoading(true);
         try {
             const res = await axiosInstance.get("product/myproducts");
-            setProducts(res.data.data.cart);
+            console.log(res);
+            setProducts(res.data.data.products);
         } catch (error) {
             console.log(error)
             setError("Failed to load Products");
