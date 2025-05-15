@@ -13,7 +13,7 @@ export const createProduct = asyncHandler(async (req: Request, res: Response) =>
     const product: ProductCreationAttributes = req.body;
     //checking if user is present
     if (!req.user) throw new ApiError(httpStatus.NOT_FOUND, "User not found");
-    //checking if address is present
+    // checking if address is present
     if (! await Address.findOne({
         where: {
             id: req.body.address_id,
@@ -26,7 +26,7 @@ export const createProduct = asyncHandler(async (req: Request, res: Response) =>
     const path =
         (req.files && Array.isArray(files.photo) && files.photo.length > 0)
             ? files?.photo[0]?.path : "";
-    if (!path) throw new ApiError(400, "Avatar image required");
+    if (!path) throw new ApiError(httpStatus.BAD_REQUEST, "Image required");
 
     const photo = await uploadToCloudinary(path);
     req.body.photo = photo?.secure_url;
