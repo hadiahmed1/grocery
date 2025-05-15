@@ -26,6 +26,7 @@ const AddProductForm = () => {
                     headers: { "Content-Type": "multipart/form-data" }
                 }
             );
+            toast.success(res.data?.data?.message || "Product added successfulyy");
         } catch (error) {
             if (error instanceof AxiosError) toast.error(error.response?.data.message);
             else toast.error("Couldn't add product")
