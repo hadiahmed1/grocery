@@ -17,6 +17,7 @@ import SellerProtectedRoute from './components/SellerProtectedrRoute'
 import Register from './pages/Register'
 import MyProductList from './components/MyProductsList'
 import AddProductForm from './components/AddProductForm'
+import EditProductForm from './components/EditProductForm'
 
 function App() {
   const [user, setUser] = useState<UserAttributes | null>(null);
@@ -40,6 +41,7 @@ function App() {
               <Route path='/myproducts' element={<MyProducts />} >
                 <Route index element={<MyProductList />} />
                 <Route path='add' element={<AddProductForm />} />
+                <Route path=':id' element={<EditProductForm />} />
               </Route>
             </Route>
           </Routes>
