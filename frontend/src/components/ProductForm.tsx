@@ -21,6 +21,7 @@ const ProductForm = ({ onSubmit, product }: ProductFormProps) => {
                 <div className="mb-5">
                     <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Name</label>
                     <input {...register("name", { required: !product })}
+                        defaultValue={product?.name}
                         type="text" id="name"
                         className={inputstyle}
                         placeholder="Product name" />
@@ -31,6 +32,7 @@ const ProductForm = ({ onSubmit, product }: ProductFormProps) => {
                 <div className="mb-5">
                     <label htmlFor="mrp" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">MRP</label>
                     <input {...register("mrp", { required: !product, min: 1, max: 99999999 })}
+                        defaultValue={product?.mrp}
                         type="number" id="mrp"
                         className={inputstyle}
                         placeholder="Maximum retail price" />
@@ -41,6 +43,7 @@ const ProductForm = ({ onSubmit, product }: ProductFormProps) => {
                 <div className="mb-5">
                     <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
                     <input {...register("description", { max: 250 })}
+                        defaultValue={product?.description || ""}
                         type="text" id="description"
                         className={inputstyle}
                         placeholder="Product description" />
@@ -51,7 +54,7 @@ const ProductForm = ({ onSubmit, product }: ProductFormProps) => {
                 <div className="mb-5">
                     <label htmlFor="discount_percent" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Discount (%)</label>
                     <input {...register("discount_percent", { min: 0, max: 100 })}
-                        defaultValue={product?.name}
+                        defaultValue={product?.discount_percent}
                         type="number" id="discount_percent"
                         className={inputstyle}
                         placeholder="0 - 100%" />
