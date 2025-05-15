@@ -22,15 +22,12 @@ export const SellerProductsProvider = ({ children }: { children: React.ReactNode
     const location = useLocation();
 
     const fetchMyProducts = async () => {
-        console.log("fetching....")
         if (!user) return;
         setLoading(true);
         try {
             const res = await axiosInstance.get("product/myproducts");
-            console.log(res);
             setProducts(res.data.data.products);
         } catch (error) {
-            console.log(error)
             setError("Failed to load Products");
         } finally {
             setLoading(false);
@@ -42,8 +39,10 @@ export const SellerProductsProvider = ({ children }: { children: React.ReactNode
     }, [error]);
 
     useEffect(() => {
-        fetchMyProducts();
+        if (location.pathname === '/myproducts')
+            fetchMyProducts();
         setError(null);
+
     }, [location]);
 
 

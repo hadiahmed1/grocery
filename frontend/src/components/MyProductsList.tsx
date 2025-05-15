@@ -3,8 +3,6 @@ import ProductCard from "./ProductCard";
 
 const MyProductList = () => {
     const { loading, products } = useSellerProducts();
-    console.log("My Products", products);
-
     if (loading) return (<>Loading...</>)
     return (
         <div>

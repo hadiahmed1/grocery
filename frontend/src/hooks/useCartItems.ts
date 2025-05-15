@@ -19,7 +19,6 @@ const useCartItem = () => {
                 }
             } catch (error) {
                 if (isMounted) {
-                    console.log(error)
                     setError("Failed to load cart items:");
                     setLoading(false);
                 }
@@ -52,7 +51,7 @@ const useCartItem = () => {
             setCartItems(prev => prev.filter(item => item.id !== id));
             console.log(id, " deleted")
         } catch (err) {
-            console.log("Failed to delete item:", err);
+            setError("Failed to delete item" + id);
         }
     };
 

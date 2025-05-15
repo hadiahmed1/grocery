@@ -4,6 +4,7 @@ import useUser from "../hooks/useUser";
 import type CartItemAttributes from "../types/cartItem.type";
 import { toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
+import { AxiosError } from "axios";
 
 type CartContextType = {
     cartItems: CartItemAttributes[];
@@ -29,8 +30,8 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
             const res = await axiosInstance.get("/cart/");
             setCartItems(res.data.data.cart);
         } catch (error) {
-            console.log(error)
-            setError("Failed to load cart items:");
+            if (error instanceof AxiosError) setError(error.response?.data.message);
+            else setError("Failed to load cart items:");
         } finally {
             setLoading(false);
         }
