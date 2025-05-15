@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 import useUser from "../hooks/useUser";
 import { toast } from "react-toastify";
-import { SellerProductsProvider } from "../contexts/SellerProductsContext";
+import { SellerProductsProvider } from "../contexts/SellerProductsProvider";
 
 const SellerProtectedRoute = () => {
     const { user } = useUser();
