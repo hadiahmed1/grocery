@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../lib/axiosInstance";
 import type CartItemAttributes from "../types/cartItem.type";
+import { AxiosError } from "axios";
+import { toast } from "react-toastify";
 
 const useCartItem = () => {
     const [cartItems, setCartItems] = useState<CartItemAttributes[]>([]);
@@ -18,6 +20,7 @@ const useCartItem = () => {
                     setLoading(false);
                 }
             } catch (error) {
+                if (error instanceof AxiosError) toast.error(error.response?.data.message);
                 if (isMounted) {
                     setError("Failed to load cart items:");
                     setLoading(false);
@@ -50,7 +53,7 @@ const useCartItem = () => {
             await axiosInstance.delete(`/cart/${id}`);
             setCartItems(prev => prev.filter(item => item.id !== id));
             console.log(id, " deleted")
-        } catch (err) {
+        } catch {
             setError("Failed to delete item" + id);
         }
     };
