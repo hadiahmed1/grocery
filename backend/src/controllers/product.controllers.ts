@@ -44,6 +44,26 @@ export const editProductById = asyncHandler(async (req: Request, res: Response) 
     const product = await Product.findByPk(req.params.id);
     //if product not found || other seller's product
     if (!product || product.seller_id != req.user?.id) throw new ApiError(httpStatus.NOT_FOUND, "No product found");
+    //checking if address is valid
+    if (req.body?.address_id) {
+        if (! await Address.findOne({
+            where: {
+                id: req.body.address_id,
+                user_id: req.user.id
+            }
+        })) throw new ApiError(httpStatus.BAD_REQUEST, "Invalid Address");
+    }
+    //checking for photo
+    const files = (req as any)?.files;
+    const path =
+        (req.files && Array.isArray(files.photo) && files.photo.length > 0)
+            ? files?.photo[0]?.path : "";
+    //uploading photo
+    if (path) {
+        const photo = await uploadToCloudinary(path);
+        req.body.photo = photo?.secure_url;
+    }
+
     //editing Product
     product.set(req.body);
     product.save();
