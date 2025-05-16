@@ -9,6 +9,7 @@ import Product from "../models/product.model";
 import CartItem from "../models/cartItem.model";
 import sequelize from "../config/sequelizeConfig";
 import { QueryTypes } from "sequelize";
+import sendOrderConfirmation from "../helper/sendOrderConfirmation";
 
 const createOrderItem = async (order_id: string, product_id: string, quantity: number = 1) => {
     const product = await Product.findByPk(product_id);
@@ -39,6 +40,8 @@ export const orderItem = asyncHandler(async (req: Request, res: Response) => {
     createOrderItem(order.id, product_id, quantity);
     //saving
     await order.save();
+    //sending email
+    sendOrderConfirmation(user.email, order.delivery_date.toISOString());
     return res.status(httpStatus.OK).send(new ApiResponse("Item ordered successfully", { order }));
 });
 
@@ -57,6 +60,8 @@ export const orderCart = asyncHandler(async (req: Request, res: Response) => {
     });
     //saving
     await order.save();
+    //sending email
+    sendOrderConfirmation(user.email, order.delivery_date.toISOString());
     return res.status(httpStatus.OK).send(new ApiResponse("Cart ordered successfully", { order }));
 });
 
@@ -132,6 +137,6 @@ export const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
         replacements: { userId: user.id },
         type: QueryTypes.SELECT
     });
-    
+
     return res.status(httpStatus.OK).send(new ApiResponse("Order", { orders }));
 });
