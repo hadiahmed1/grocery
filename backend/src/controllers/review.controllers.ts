@@ -18,3 +18,8 @@ export const addReview = asyncHandler(async (req: Request, res: Response) => {
     })
     res.status(httpStatus.OK).send(new ApiResponse("Product reviwed", {}));
 });
+
+export const getReviews = asyncHandler(async (req: Request, res: Response) => {
+    const reviews = await Review.findAll({ where: { product_id: req.params.id } });
+    return res.status(httpStatus.OK).send(new ApiResponse("Reviews", reviews));
+});
