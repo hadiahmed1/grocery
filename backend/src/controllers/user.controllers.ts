@@ -3,11 +3,11 @@ import User from '../models/user.model';
 import ApiResponse from '../helper/ApiResponse';
 import ApiError from '../helper/ApiError';
 import asyncHandler from '../helper/asyncHandler';
-import sendEmail from '../helper/sendEmail';
 import { findUserByEmail } from '../service/users';
 import bcrypt from 'bcryptjs';
 import generateToken from '../helper/generateToken';
 import httpStatus from '../constants/httpStatusCode';
+import sendVerificationEmail from '../helper/sendVerificarionEmail';
 
 export const register = asyncHandler(async (req: Request, res: Response) => {
     //checking for duplicate emailId
@@ -17,7 +17,7 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
     const user = User.build(req.body);
     await user.save();
     //sending verification email
-    sendEmail(req.body.email, user.dataValues.id);
+    sendVerificationEmail(req.body.email, user.dataValues.id);
     return res.status(httpStatus.OK).send(new ApiResponse("User created successfully", { userId: user.dataValues.id }));
 });
 
@@ -40,7 +40,7 @@ export const signinUser = asyncHandler(async (req: Request, res: Response) => {
         throw new ApiError(httpStatus.UNAUTHORIZED, "Invalid Email or Password");
     //checking if user is verified
     if (!user.isVerified) {
-        sendEmail(email, user.id);//sending verification email
+        sendVerificationEmail(email, user.id);//sending verification email
         throw new ApiError(httpStatus.UNAUTHORIZED, "User not verified: Please check your email a verification email has been sent to you");
     }
     return res.status(httpStatus.OK)//sending cookies to maintain session
