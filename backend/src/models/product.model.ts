@@ -4,6 +4,7 @@ import sequelize from '../config/sequelizeConfig';
 import ProductAttributes, { ProductCreationAttributes } from '../types/product.type';
 
 class Product extends Model<ProductAttributes, ProductCreationAttributes> implements ProductAttributes {
+  [x: string]: any;
   id!: string;
   seller_id!: string;
   name!: string;

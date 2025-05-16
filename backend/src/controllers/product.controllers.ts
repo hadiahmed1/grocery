@@ -7,6 +7,7 @@ import asyncHandler from '../helper/asyncHandler';
 import httpStatus from '../constants/httpStatusCode';
 import Address from '../models/adress.model';
 import uploadToCloudinary from '../helper/uploadToCloudinary';
+import productRating from '../helper/productRating';
 
 //seller
 export const createProduct = asyncHandler(async (req: Request, res: Response) => {
@@ -35,7 +36,6 @@ export const createProduct = asyncHandler(async (req: Request, res: Response) =>
     //creating new product
     const newProduct = Product.build(product);
     await newProduct.save();
-
     return res.status(httpStatus.OK).send(new ApiResponse("Product created successfully", { product: newProduct }));
 });
 
@@ -79,7 +79,12 @@ export const getMyProducts = asyncHandler(async (req: Request, res: Response) =>
 //open
 export const getProducts = asyncHandler(async (_req: Request, res: Response) => {
     const products = await Product.findAll();//all products
-    return res.status(httpStatus.OK).send(new ApiResponse(products.length + " Products", { products }));
+    const productsWithRating = await Promise.all(products.map(async product => {
+        const p = product.dataValues;
+        (p as any).rating = await productRating(product.id);
+        return p;
+    }))
+    return res.status(httpStatus.OK).send(new ApiResponse(products.length + " Products", { productsWithRating }));
 });
 //open
 export const getProductById = asyncHandler(async (req: Request, res: Response) => {
