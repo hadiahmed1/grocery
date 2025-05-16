@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer'
 import generateToken from './generateToken';
 import hbs from "nodemailer-express-handlebars";
 
-const sendEmail = (emailID: string, userId: string) => {
+const sendEmail = (emailID: string, context: object, template: string, subject: string) => {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -20,20 +20,17 @@ const sendEmail = (emailID: string, userId: string) => {
         viewPath: './src/views',
         extName: '.hbs'
     }));
-    const registerToken = generateToken('verificationToken', userId, '15m');
 
     const mailConfigurations = {
         from: 'hadiahmed0112@gmail.com',
         to: `${emailID}`,
-        subject: `Email Verification: ${emailID}`,
-        template: 'verificationEmail',
-        context: {
-            registerToken: `${registerToken}`
-        }
+        subject,
+        template,
+        context
     };
 
     transporter.sendMail(mailConfigurations, function (error) {
-        if (error){
+        if (error) {
             console.log(error);
         }
         console.log('Email Sent Successfully');
