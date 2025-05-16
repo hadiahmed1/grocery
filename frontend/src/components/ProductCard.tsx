@@ -6,6 +6,7 @@ import DeleteFromCartBtn from "./DeleteFromCartBtn";
 import BuyProductButton from "./BuyProductButton";
 import EditProductBtn from "./EditProductBtn";
 import StarRating from "./StarRating";
+import ReviewProductBtn from "./ReviewProductBtn";
 
 const ProductCard = ({ product, cartItemId = undefined, isMyProduct = false }: { product: ProductAttributes, cartItemId?: string | undefined, isMyProduct?: boolean }) => {
     const [quantity, setQuantity] = useState(product.count ?? 1);
@@ -105,6 +106,7 @@ const ProductCard = ({ product, cartItemId = undefined, isMyProduct = false }: {
                         </div>}
                         {(!cartItemId && !isMyProduct) && <AddToCartBtn id={product.id} quantity={quantity} />}
                         {(!cartItemId && !isMyProduct) && <BuyProductButton id={product.id} quantity={quantity} />}
+                        {(!isMyProduct) && <ReviewProductBtn id={product.id} />}
                         {cartItemId && <DeleteFromCartBtn id={cartItemId} />}
                         {isMyProduct && <EditProductBtn id={product.id} />}
                     </div>

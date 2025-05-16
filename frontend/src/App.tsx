@@ -18,6 +18,7 @@ import Register from './pages/Register'
 import MyProductList from './components/MyProductsList'
 import AddProductForm from './components/AddProductForm'
 import EditProductForm from './components/EditProductForm'
+import ReviewForm from './components/ReviewForm'
 
 function App() {
   const [user, setUser] = useState<UserAttributes | null>(null);
@@ -29,14 +30,23 @@ function App() {
           <NavBar />
           <Routes>
             <Route path='/' element={<Home />} />
+
             <Route path='/login' element={<Login />} />
+
             <Route path='/register' element={<Register />} />
+
             <Route element={<ProtectedRoute />} >
               <Route path='/cart' element={<Cart />} />
             </Route>
+
             <Route element={<ProtectedRoute />} >
               <Route path='/orders' element={<Orders />} />
             </Route>
+
+            <Route element={<ProtectedRoute />} >
+              <Route path='/review/:id' element={<ReviewForm />} />
+            </Route>
+
             <Route element={<SellerProtectedRoute />}>
               <Route path='/myproducts' element={<MyProducts />} >
                 <Route index element={<MyProductList />} />
@@ -44,6 +54,7 @@ function App() {
                 <Route path=':id' element={<EditProductForm />} />
               </Route>
             </Route>
+
           </Routes>
           <ToastContainer theme='dark' />
 
