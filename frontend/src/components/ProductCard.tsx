@@ -5,6 +5,7 @@ import AddToCartBtn from "./AddToCartBtn";
 import DeleteFromCartBtn from "./DeleteFromCartBtn";
 import BuyProductButton from "./BuyProductButton";
 import EditProductBtn from "./EditProductBtn";
+import StarRating from "./StarRating";
 
 const ProductCard = ({ product, cartItemId = undefined, isMyProduct = false }: { product: ProductAttributes, cartItemId?: string | undefined, isMyProduct?: boolean }) => {
     const [quantity, setQuantity] = useState(product.count ?? 1);
@@ -44,6 +45,8 @@ const ProductCard = ({ product, cartItemId = undefined, isMyProduct = false }: {
                                 {product.name} <span className="text-xl text-gray-400 font-light">{(product.quantity || 1) + " " + (product.unit || "")}</span>
                             </h1>
                         </div>
+                        {/*Rating*/}
+                        {!isMyProduct && <StarRating rating={product.rating || 1} />}
                         {/* Toggle Description */}
                         <div className="space-y-2">
                             <p className="text-gray-300">
@@ -100,7 +103,6 @@ const ProductCard = ({ product, cartItemId = undefined, isMyProduct = false }: {
                                 </button>
                             </div>
                         </div>}
-
                         {(!cartItemId && !isMyProduct) && <AddToCartBtn id={product.id} quantity={quantity} />}
                         {(!cartItemId && !isMyProduct) && <BuyProductButton id={product.id} quantity={quantity} />}
                         {cartItemId && <DeleteFromCartBtn id={cartItemId} />}
