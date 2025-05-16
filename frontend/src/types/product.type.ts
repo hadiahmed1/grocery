@@ -10,6 +10,7 @@ export default interface ProductAttributes {
     photo?: string | null;
     description?: string | null;
     stock?: number;
+    rating?: 0 | 1 | 2 | 3 | 4 | 5;
     address_id?: string | null;
     createdAt: Date;
     updatedAt: Date;
