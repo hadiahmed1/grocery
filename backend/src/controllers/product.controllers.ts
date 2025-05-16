@@ -84,7 +84,7 @@ export const getProducts = asyncHandler(async (_req: Request, res: Response) => 
         (p as any).rating = await productRating(product.id);
         return p;
     }))
-    return res.status(httpStatus.OK).send(new ApiResponse(products.length + " Products", { productsWithRating }));
+    return res.status(httpStatus.OK).send(new ApiResponse(products.length + " Products", { products: productsWithRating }));
 });
 //open
 export const getProductById = asyncHandler(async (req: Request, res: Response) => {
