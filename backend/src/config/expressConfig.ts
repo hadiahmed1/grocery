@@ -7,6 +7,7 @@ import productRouter from '../routes/productRoute';
 import cartRouter from '../routes/cartRoute';
 import addressRouter from "../routes/addressRoute";
 import orderRouter from "../routes/orderRoute";
+import reviewRouter from "../routes/reviewRoute";
 
 const app = express();
 //middlewares
@@ -15,7 +16,7 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 const port = process.env.PORT;
 
@@ -25,6 +26,7 @@ app.use('/product', productRouter);
 app.use('/cart', cartRouter);
 app.use('/address', addressRouter);
 app.use('/order', orderRouter);
+app.use('/review', reviewRouter);
 
 app.listen(port, () => {
   console.log(`Example app listening on port http://localhost:${port}`)

@@ -16,5 +16,5 @@ export const addReview = asyncHandler(async (req: Request, res: Response) => {
     const rev = await Review.create({
         user_id, product_id, review, rating
     })
-    res.status(httpStatus.OK).send(new ApiResponse("Product reviwed", { review: rev }));
+    res.status(httpStatus.OK).send(new ApiResponse("Product reviwed", {}));
 });
