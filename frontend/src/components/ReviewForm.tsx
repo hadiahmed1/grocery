@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import axiosInstance from '../lib/axiosInstance';
