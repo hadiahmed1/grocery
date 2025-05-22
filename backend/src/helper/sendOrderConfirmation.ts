@@ -1,7 +1,7 @@
 import sendEmail from "./sendEmail";
 
-const sendOrderConfirmation = (emailID: string, time: string) => {
-    const context = { time }
+const sendOrderConfirmation = (emailID: string, summary: string) => {
+    const context = { summary }
     const template = 'orderConfirmation'
     const subject = `Order confirmation`
     sendEmail(emailID, context, template, subject);
