@@ -8,17 +8,4 @@ const pusher = new Pusher({
   useTLS: true
 });
 
-export default Pusher;
-
-const sendRandomNotification = () =>{
-    let i =0;
-    setInterval(()=>{
-        console.log("sending notif"+i++)
-        pusher.trigger("my-channel", "my-event", {
-          message: "hello world"+i
-        });
-
-    },10000)
-}
-
-export {sendRandomNotification};
+export default pusher;
