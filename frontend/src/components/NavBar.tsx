@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import useUser from "../hooks/useUser";
 import LogoutBtn from "./LogoutBtn";
+import Notification from "./Notification";
 
 const NavBar = () => {
   const [visiblity, setVisibility] = useState<"" | "hidden">("");
@@ -49,7 +50,9 @@ const NavBar = () => {
             <li>
               {user === null ? <Link className='text-xl text-emerald-300' to='/login'>Login</Link> : <LogoutBtn />}
             </li>
-
+            <li>
+              <Notification/>
+            </li>
           </ul>
         </div>
       </div>
