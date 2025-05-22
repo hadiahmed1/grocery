@@ -5,6 +5,8 @@ import { Request, Response, NextFunction } from 'express';
 import User from '../models/user.model';
 import asyncHandler from '../helper/asyncHandler';
 import { AuthenticatedRequest } from '../types/AuthenticatedRequest';
+import httpStatus from '../constants/httpStatusCode';
+import { OAuth2Client } from 'google-auth-library';
 
 const verifyToken = async (token: string, type: 'accessToken' | 'verificationToken') => {
     try {
@@ -46,4 +48,36 @@ export const verifySeller = asyncHandler(async (req: Request, Response: Response
 
     (req as AuthenticatedRequest).user = user.dataValues;
     next();
+});
+
+export const verifyGoogleSignin = asyncHandler(async (req: Request, Response: Response, next: NextFunction) => {
+    //extracting token
+    const token = req.body?.accessToken;
+    if (!token) throw new ApiError(httpStatus.UNAUTHORIZED, "No token: Unauthorized");
+
+    //decoding token
+    const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+    const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: process.env.GOOGLE_CLIENT_ID, // Your Google Client ID
+    });
+    const payload = ticket.getPayload();
+    if (!payload) throw new ApiError(httpStatus.UNAUTHORIZED, "Invalid token");
+    const email = payload['email'] || "";
+
+    //finding user
+    const user = await User.findOne({ where: { email } });
+    if (user) {//setting user
+        (req as AuthenticatedRequest).user = user.dataValues;
+    } else {//creating user
+        const newUser = await User.create({
+            email,
+            username: payload['name'] || "",
+            role: "user",
+            user_password: "temporary password"
+        });
+        (req as AuthenticatedRequest).user = newUser.dataValues;
+    }
+    next();
+
 });
