@@ -29,6 +29,8 @@ SELECT * FROM orderitems;
 DESC orders;
 SELECT * FROM orders;
 
+SELECT * FROM reviews r ;
+
 -- Order toatal
 SELECT o.id,o.status, o.delivery_date, o.createdAt, 
 SUM(oi.price) as total  FROM 
