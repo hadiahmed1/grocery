@@ -10,6 +10,8 @@ import CartItem from "../models/cartItem.model";
 import sequelize from "../config/sequelizeConfig";
 import { QueryTypes } from "sequelize";
 import sendOrderConfirmation from "../helper/sendOrderConfirmation";
+import pusher from "../config/pusherConfig";
+import orderSummary from "../helper/orderSummary";
 
 const createOrderItem = async (order_id: string, product_id: string, quantity: number = 1) => {
     const product = await Product.findByPk(product_id);
@@ -41,7 +43,11 @@ export const orderItem = asyncHandler(async (req: Request, res: Response) => {
     //saving
     await order.save();
     //sending email
-    sendOrderConfirmation(user.email, order.delivery_date.toISOString());
+    const summary =await orderSummary(order.id)
+    sendOrderConfirmation(user.email, summary);
+    pusher.trigger(`${user.id}`, 'notification', {
+        notification: summary
+    });
     return res.status(httpStatus.OK).send(new ApiResponse("Item ordered successfully", { order }));
 });
 
@@ -95,11 +101,6 @@ export const getOrder = asyncHandler(async (req: Request, res: Response) => {
     });
     if (!order) throw new ApiError(httpStatus.NOT_FOUND, "Order not found");
     //finding order items
-    const orderItems = await OrderItem.findAll({
-        where: { order_id: order.id }
-    });
-
-
     const results = await sequelize.query(`
   SELECT 
     o.order_id,
