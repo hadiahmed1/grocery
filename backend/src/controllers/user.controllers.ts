@@ -48,6 +48,18 @@ export const signinUser = asyncHandler(async (req: Request, res: Response) => {
         .json(new ApiResponse("Signin successfull", { user: { id: user.id, role: user.role } }));
 });
 
+export const signinWithGoogle = asyncHandler(async (req: Request, res: Response) => {
+    //finding user
+    const { user } = req;
+    //checking if credentials are valid
+    if (!user)
+        throw new ApiError(httpStatus.UNAUTHORIZED, "User not found");
+    //sending cookies
+    return res.status(httpStatus.OK)//sending cookies to maintain session
+        .cookie('accessToken', generateToken('accessToken', user.id, '1h'), { httpOnly: true, secure: true })
+        .json(new ApiResponse("Signin successfull", { user: { id: user.id, role: user.role } }));
+});
+
 export const getUser = asyncHandler(async (req: Request, res: Response) => {
     return res.status(httpStatus.OK).send(new ApiResponse("User Found", { user: req.user }));
 });
