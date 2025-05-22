@@ -4,6 +4,7 @@ import useUser from "../hooks/useUser"
 import { Link, useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import { AxiosError } from "axios"
+import { GoogleLogin } from "@react-oauth/google"
 type Inputs = {
     email: string
     password: string
@@ -52,6 +53,12 @@ export default function Login() {
                 <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login</button>
             </form>
             <Link className="text-indigo-700 my-4 mx-auto" to="/register">Dont have an Account? Register</Link>
+            <div>
+                <h2>React Google Login</h2>
+                <br />
+                <br />
+                <GoogleLogin onSuccess={res => console.log(res)} onError={()=>toast.error("Something went wrong try again later")} />
+            </div>
         </div>
 
     )
