@@ -18,6 +18,20 @@ export default function Login() {
         handleSubmit,
         formState: { errors },
     } = useForm<Inputs>()
+    const onGoogleSignIn = async(accessToken:string)=>{
+        try {
+            const data = {accessToken};
+            const res = await axiosInstance.post('user/googleSignin', data);
+            setUser(res.data.data.user);
+            if (res.data.success) {
+                toast.success("Loggin successfull")
+                navigate('/');//navigation to home
+            }
+        } catch (error) {
+            if (error instanceof AxiosError) toast.error(error.response?.data.message || "Unable to Login");
+            else toast.error("Something went wrong. Try agin latter.")
+        }
+    }
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         try {
             const res = await axiosInstance.post('user/signin', data);
@@ -57,7 +71,7 @@ export default function Login() {
                 <h2>React Google Login</h2>
                 <br />
                 <br />
-                <GoogleLogin onSuccess={res => console.log(res)} onError={()=>toast.error("Something went wrong try again later")} />
+                <GoogleLogin onSuccess={res => onGoogleSignIn(res.credential||"")} onError={()=>toast.error("Something went wrong try again later")} />
             </div>
         </div>
 
