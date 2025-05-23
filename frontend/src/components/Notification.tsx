@@ -10,6 +10,7 @@ const Notification = () => {
     const { user } = useUser();
     const pusherKey = import.meta.env.VITE_PUSHER_KEY || "";
     const [notifications, setNotifications] = useState<string[]>([]);
+    const [notifCount, setNotifCount]=useState(0);
     useEffect(() => {
         const pusher = new Pusher(pusherKey, {
             cluster: 'ap2',
@@ -19,15 +20,15 @@ const Notification = () => {
         channel.bind('notification', function (data: pusherData) {
             console.log('Received message:', data);
             setNotifications(notif => [data.notification, ...notif])
+            setNotifCount(notifCount => notifCount+1);
         });
 
     }, [pusherKey, user?.id]);
 
     const [open, setOpen] = useState(false);
-
     return (
         <div className="relative inline-block">
-            <button onClick={() => setOpen(!open)} className="relative">
+            <button onClick={() => {setOpen(!open); setNotifCount(0)}} className="relative">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="32"
@@ -44,7 +45,7 @@ const Notification = () => {
                     <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" />
                 </svg>
                 <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-yellow-300 flex justify-center items-center text-gray-800 text-xs">
-                    {notifications.length}
+                    {notifCount}
                 </span>
             </button>
 
