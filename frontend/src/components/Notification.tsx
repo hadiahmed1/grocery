@@ -18,10 +18,10 @@ const Notification = () => {
         const channel = pusher.subscribe(user?.id || "");
         channel.bind('notification', function (data: pusherData) {
             console.log('Received message:', data);
-            setNotifications([data.notification, ...notifications])
+            setNotifications(notif => [data.notification, ...notif])
         });
 
-    }, [pusherKey, user?.id, notifications]);
+    }, [pusherKey, user?.id]);
 
     const [open, setOpen] = useState(false);
 
