@@ -13,7 +13,7 @@ function getOrderDeliveryTime(order: Order) {
     return timeDiff;
 }
 
-const getOrderTotal = async (order_id: string) => {
+export const getOrderTotal = async (order_id: string) => {
     const orderItems = await OrderItem.findAll({ where: { order_id } });
     let total = 0;
     orderItems.forEach(orderItem => {

@@ -11,7 +11,7 @@ import sequelize from "../config/sequelizeConfig";
 import { QueryTypes } from "sequelize";
 import sendOrderConfirmation from "../helper/sendOrderConfirmation";
 import pusher from "../config/pusherConfig";
-import orderSummary from "../helper/orderSummary";
+import orderSummary, { getOrderTotal } from "../helper/orderSummary";
 import Stripe from 'stripe';
 
 const createOrderItem = async (order_id: string, product_id: string, quantity: number = 1) => {
@@ -159,7 +159,7 @@ export const payForOrder = asyncHandler(async (req, res) => {
                     product_data: {
                         name: order.id
                     },
-                    unit_amount: 2000 * 100,
+                    unit_amount: (await getOrderTotal(orderID)) * 100,
                 },
                 quantity: 1,
             },
