@@ -19,7 +19,7 @@ cron.schedule('* * * * *', async () => {
         );
         //updating them
         const [count] = await Order.update(
-            { status: 'delivered' },
+            { status: 'delivered', isPaid: true },
             {
                 where: {
                     status: 'ordered',
