@@ -134,7 +134,8 @@ export const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
         orders o JOIN orderitems oi
         ON o.id = oi.order_id
         WHERE o.user_id = :userId
-        GROUP BY o.id;
+        GROUP BY o.id
+        ORDER BY o.updatedAt DESC;
 `, {
         replacements: { userId: user.id },
         type: QueryTypes.SELECT
@@ -164,8 +165,8 @@ export const payForOrder = asyncHandler(async (req: Request, res: Response) => {
             },
         ],
         mode: 'payment',
-        success_url: 'http://localhost:5173/success',
-        cancel_url: 'http://localhost:5173/cancel',
+        success_url: 'http://localhost:5173/orders',
+        cancel_url: 'http://localhost:5173/orders',
         metadata: {
             order_id: orderID,
         },

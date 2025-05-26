@@ -32,12 +32,12 @@ SELECT * FROM orders;
 SELECT * FROM reviews r ;
 
 -- Order toatal
-SELECT o.id,o.status, o.delivery_date, o.createdAt, 
+SELECT o.id,o.status, o.delivery_date, o.createdAt, o.isPaid, o.updatedAt 
 SUM(oi.price) as total  FROM 
 orders o JOIN orderitems oi
 ON o.id = oi.order_id
-WHERE o.user_id = "85aefd18-2d04-4065-983d-a9601bedde23"
-GROUP BY o.id;
+GROUP BY o.id
+ORDER BY o.updatedAt;
   
   
   
