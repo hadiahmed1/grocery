@@ -123,7 +123,6 @@ export const getOrder = asyncHandler(async (req: Request, res: Response) => {
     return res.status(httpStatus.OK).send(new ApiResponse("Orders", { results }));
 });
 
-//seller & buyer
 export const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
     const { user } = req;
     if (!user) throw new ApiError(httpStatus.NOT_FOUND, "User not found");
@@ -143,7 +142,6 @@ export const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
     return res.status(httpStatus.OK).send(new ApiResponse("Order", { orders }));
 });
 
-//user
 export const payForOrder = asyncHandler(async (req, res) => {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
         apiVersion: '2025-04-30.basil', // or the latest version you use
@@ -157,8 +155,11 @@ export const payForOrder = asyncHandler(async (req, res) => {
         line_items: [
             {
                 price_data: {
-                    currency: 'usd',
-                    unit_amount: 2000,
+                    currency: 'inr',
+                    product_data: {
+                        name: order.id
+                    },
+                    unit_amount: 2000 * 100,
                 },
                 quantity: 1,
             },
