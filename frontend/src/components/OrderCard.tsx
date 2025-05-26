@@ -36,9 +36,9 @@ const OrderCard = ({ order }: { order: OrderAttributes }) => {
                 </div>
                 <div className="inline-flex items-center text-base font-semibold text-blue-700 dark:text-white">
                     {order.total}
+                    {(order.isPaid == false) ? <PayForOrderBtn id={order.id} /> : <p className="text-green-300">Paid</p>}
                 </div>
             </div>
-            <PayForOrderBtn id={order.id} />
         </li>
     </>)
 }
