@@ -8,6 +8,7 @@ import httpStatus from '../constants/httpStatusCode';
 import Address from '../models/adress.model';
 import uploadToCloudinary from '../helper/uploadToCloudinary';
 import productRating from '../helper/productRating';
+import { } from 'multer'
 
 //seller
 export const createProduct = asyncHandler(async (req: Request, res: Response) => {
@@ -24,7 +25,9 @@ export const createProduct = asyncHandler(async (req: Request, res: Response) =>
     })) throw new ApiError(httpStatus.BAD_REQUEST, "Invalid Address");
     product.seller_id = req.user.id;
     //uploading photo
-    const files = (req as any)?.files;
+    const files = req.files as {
+        [fieldname: string]: Express.Multer.File[];
+    };
     const path =
         (req.files && Array.isArray(files.photo) && files.photo.length > 0)
             ? files?.photo[0]?.path : "";
@@ -54,7 +57,9 @@ export const editProductById = asyncHandler(async (req: Request, res: Response) 
         })) throw new ApiError(httpStatus.BAD_REQUEST, "Invalid Address");
     }
     //checking for photo
-    const files = (req as any)?.files;
+    const files = req.files as {
+        [fieldname: string]: Express.Multer.File[];
+    };
     const path =
         (req.files && Array.isArray(files.photo) && files.photo.length > 0)
             ? files?.photo[0]?.path : "";
@@ -81,7 +86,7 @@ export const getProducts = asyncHandler(async (_req: Request, res: Response) => 
     const products = await Product.findAll();//all products
     const productsWithRating = await Promise.all(products.map(async product => {
         const p = product.dataValues;
-        (p as any).rating = await productRating(product.id);
+        p.rating = await productRating(product.id);
         return p;
     }))
     return res.status(httpStatus.OK).send(new ApiResponse(products.length + " Products", { products: productsWithRating }));

@@ -13,7 +13,7 @@ export const addReview = asyncHandler(async (req: Request, res: Response) => {
     const product = await Product.findByPk(product_id);
     if (!product) throw new ApiError(httpStatus.NOT_FOUND, "Product not found");
     const { review, rating } = req.body;
-    const rev = await Review.create({
+    await Review.create({
         user_id, product_id, review, rating
     })
     res.status(httpStatus.OK).send(new ApiResponse("Product reviwed", {}));
