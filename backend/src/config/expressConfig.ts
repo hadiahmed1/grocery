@@ -8,8 +8,13 @@ import cartRouter from '../routes/cartRoute';
 import addressRouter from "../routes/addressRoute";
 import orderRouter from "../routes/orderRoute";
 import reviewRouter from "../routes/reviewRoute";
+import { updatePaymentStatus } from "../controllers/order.contollers";
 
 const app = express();
+
+//route to handle stripe webhook
+app.post('/webhook', express.raw({ type: 'application/json' }), updatePaymentStatus);
+
 //middlewares
 app.use(cors({
   origin: 'http://localhost:5173',
