@@ -5,18 +5,18 @@ interface OrderAttributes {
   id: string;
   user_id: string;
   status: 'ordered' | 'delivered' | 'cancelled';
-  payment_status: 'paid' | 'pending'
+  isPaid: boolean;
   delivery_date: Date;
   deletedAt?: Date | null;
 }
 
-type OrderCreationAttributes = Omit<OrderAttributes, 'id' | 'status' | 'delivery_date' | 'pending' | 'deletedAt'>
+type OrderCreationAttributes = Omit<OrderAttributes, 'id' | 'status' | 'delivery_date' | 'isPaid' | 'deletedAt'>
 
 class Order extends Model<OrderAttributes, OrderCreationAttributes> implements OrderAttributes {
-  payment_status: 'paid' | 'pending' = "pending";
+  isPaid: boolean = false;
   public id!: string;
   public user_id!: string;
-  public status!: 'ordered' | 'delivered' | 'cancelled';
+  public status: 'ordered' | 'delivered' | 'cancelled' = 'ordered';
   public delivery_date!: Date;
   public deletedAt?: Date | null;
   public readonly createdAt!: Date;
@@ -46,9 +46,9 @@ Order.init(
         return now;
       },
     },
-    payment_status: {
-      type: DataTypes.STRING,
-      defaultValue: 'pending'
+    isPaid: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     },
     deletedAt: {
       type: DataTypes.DATE,
