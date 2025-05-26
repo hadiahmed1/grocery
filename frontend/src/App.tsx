@@ -4,7 +4,7 @@ import Cart from './pages/Cart'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import UserContext from './contexts/UserContext'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { UserAttributes } from './types/user.type'
 import ProtectedRoute from './components/ProtectedRoute'
 import Orders from './pages/Orders'
@@ -19,15 +19,32 @@ import MyProductList from './components/MyProductsList'
 import AddProductForm from './components/AddProductForm'
 import EditProductForm from './components/EditProductForm'
 import ReviewForm from './components/ReviewForm'
+import OrderStripeBtn from './components/OrderStripeBtn'
+import axiosInstance from './lib/axiosInstance'
 
 function App() {
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        console.log("fetching user ..");
+        
+        const res = await axiosInstance.get('user');
+        console.log(res);
+        
+        setUser(res.data?.data?.user || null);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchUser();
+  },[])
   const [user, setUser] = useState<UserAttributes | null>(null);
   return (
     <UserContext.Provider value={{ user, setUser }}>
       <CartProvider>
         <OrderProvider>
-
           <NavBar />
+          <OrderStripeBtn />{/**/}
           <Routes>
             <Route path='/' element={<Home />} />
 
