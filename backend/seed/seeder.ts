@@ -5,7 +5,7 @@ import ratingSeed from './ratingSeed';
 // import productSeed from './productSeed';
 // import cartItemSeed from './cartItemSeed';
 
-const seeder = async (n: number) => {
+const seeder = async () => {
     // await userSeed(n);
     // await addressSeed();
     // await productSeed();
@@ -14,4 +14,4 @@ const seeder = async (n: number) => {
     console.log("Seeder Done")
 }
 
-seeder(20);
+seeder();

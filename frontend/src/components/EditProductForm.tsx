@@ -23,7 +23,7 @@ const EditProductForm = () => {
                 }
             } else if (typeof value !== "undefined") {
                 const newValue = String(value);
-                const oldValue = product ? String((product as any)[key] ?? "") : "";
+                const oldValue = product ? String((product as prod)[key] ?? "") : "";
 
                 const isChanged = product ? newValue !== oldValue : true;
 

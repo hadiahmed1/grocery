@@ -13,7 +13,7 @@ const uploadToCloudinary = async (path: string) => {
         .upload(path, {
             resource_type: "auto"
         })
-        .catch((error) => {
+        .catch(() => {
             console.log("Coudnt upload to cloudinary");
             fs.unlinkSync(path);
             return null;

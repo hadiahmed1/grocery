@@ -1,4 +1,5 @@
 export default interface ProductAttributes {
+    rating?: number;
     id: string;
     seller_id: string;
     name: string;

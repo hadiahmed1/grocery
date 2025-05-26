@@ -1,5 +1,4 @@
 import nodemailer from 'nodemailer'
-import generateToken from './generateToken';
 import hbs from "nodemailer-express-handlebars";
 
 const sendEmail = (emailID: string, context: object, template: string, subject: string) => {
