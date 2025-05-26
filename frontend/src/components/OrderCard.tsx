@@ -1,4 +1,5 @@
 import type OrderAttributes from "../types/order.type";
+import PayForOrderBtn from "./PayForOrderBtn";
 
 function getOrderStatusInfo(status: string, createdAt: string | Date, deliveryDate: string | Date) {
     const statusColor =
@@ -30,13 +31,14 @@ const OrderCard = ({ order }: { order: OrderAttributes }) => {
                         Ordered on:{new Date(order.createdAt).toDateString()}
                     </p>
                     <p className={`text-xl truncate ${statusColor}`} >
-                        {(order.status!== 'ordered')?order.status:("Will be delivred in:"+timeDiff)}
+                        {(order.status !== 'ordered') ? order.status : ("Will be delivred in:" + timeDiff)}
                     </p>
                 </div>
                 <div className="inline-flex items-center text-base font-semibold text-blue-700 dark:text-white">
                     {order.total}
                 </div>
             </div>
+            <PayForOrderBtn id={order.id} />
         </li>
     </>)
 }

@@ -19,7 +19,6 @@ import MyProductList from './components/MyProductsList'
 import AddProductForm from './components/AddProductForm'
 import EditProductForm from './components/EditProductForm'
 import ReviewForm from './components/ReviewForm'
-import OrderStripeBtn from './components/OrderStripeBtn'
 import axiosInstance from './lib/axiosInstance'
 
 function App() {
@@ -44,7 +43,6 @@ function App() {
       <CartProvider>
         <OrderProvider>
           <NavBar />
-          <OrderStripeBtn />{/**/}
           <Routes>
             <Route path='/' element={<Home />} />
 
