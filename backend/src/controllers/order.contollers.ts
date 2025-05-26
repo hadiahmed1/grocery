@@ -12,7 +12,8 @@ import { QueryTypes } from "sequelize";
 import sendOrderConfirmation from "../helper/sendOrderConfirmation";
 import pusher from "../config/pusherConfig";
 import orderSummary, { getOrderTotal } from "../helper/orderSummary";
-import Stripe from 'stripe';
+import stripe from "../config/stripeConfig";
+import Stripe from "stripe";
 
 const createOrderItem = async (order_id: string, product_id: string, quantity: number = 1) => {
     const product = await Product.findByPk(product_id);
@@ -128,7 +129,7 @@ export const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
     if (!user) throw new ApiError(httpStatus.NOT_FOUND, "User not found");
     //finding order
     const orders = await sequelize.query(`
-        SELECT o.id,o.status, o.delivery_date, o.createdAt, 
+        SELECT o.id,o.status, o.isPaid,o.delivery_date, o.createdAt, 
         SUM(oi.price) as total  FROM 
         orders o JOIN orderitems oi
         ON o.id = oi.order_id
@@ -142,10 +143,8 @@ export const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
     return res.status(httpStatus.OK).send(new ApiResponse("Order", { orders }));
 });
 
-export const payForOrder = asyncHandler(async (req, res) => {
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
-        apiVersion: '2025-04-30.basil', // or the latest version you use
-    });
+export const payForOrder = asyncHandler(async (req: Request, res: Response) => {
+
     const { orderID } = req.params;
     const order = await Order.findByPk(orderID);
     if (!order) throw new ApiError(httpStatus.NOT_FOUND, "Order not found");
@@ -173,4 +172,35 @@ export const payForOrder = asyncHandler(async (req, res) => {
     });
 
     res.status(200).json({ url: session.url });
+});
+
+export const updatePaymentStatus = asyncHandler(async (req: Request, res: Response) => {
+    const sig = req.headers['stripe-signature'] as string;
+
+    let event;
+    const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET || "";
+
+    try {
+        event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+        if (event.type === 'checkout.session.completed') {
+            const session = event.data.object as Stripe.Checkout.Session;
+            const orderID = session.metadata?.order_id;
+
+            if (orderID) {
+                const order = await Order.findByPk(orderID);
+                if (order) {
+                    order.isPaid = true;
+                    await order.save();
+                    console.log(`Order ${orderID} marked as paid`);
+                }
+            }
+        }
+    } catch (err) {
+        if (err instanceof Error) {
+            console.log(err);
+            console.error('Webhook error:', err.message);
+            return res.status(400).send(`Webhook Error: ${err.message}`);
+        }
+    }
+    res.json({ received: true });
 });
