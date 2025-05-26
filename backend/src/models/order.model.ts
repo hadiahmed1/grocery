@@ -5,13 +5,15 @@ interface OrderAttributes {
   id: string;
   user_id: string;
   status: 'ordered' | 'delivered' | 'cancelled';
+  payment_status: 'paid' | 'pending'
   delivery_date: Date;
   deletedAt?: Date | null;
 }
 
-type OrderCreationAttributes = Omit<OrderAttributes, 'id' | 'status' | 'delivery_date' | 'deletedAt'> 
+type OrderCreationAttributes = Omit<OrderAttributes, 'id' | 'status' | 'delivery_date' | 'pending' | 'deletedAt'>
 
 class Order extends Model<OrderAttributes, OrderCreationAttributes> implements OrderAttributes {
+  payment_status: 'paid' | 'pending' = "pending";
   public id!: string;
   public user_id!: string;
   public status!: 'ordered' | 'delivered' | 'cancelled';
@@ -43,6 +45,10 @@ Order.init(
         now.setMinutes(now.getMinutes() + Math.ceil(Math.random() * 5)); // mock delivery 1-5 mins
         return now;
       },
+    },
+    payment_status: {
+      type: DataTypes.STRING,
+      defaultValue: 'pending'
     },
     deletedAt: {
       type: DataTypes.DATE,
