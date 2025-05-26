@@ -12,6 +12,7 @@ import { QueryTypes } from "sequelize";
 import sendOrderConfirmation from "../helper/sendOrderConfirmation";
 import pusher from "../config/pusherConfig";
 import orderSummary from "../helper/orderSummary";
+import Stripe from 'stripe';
 
 const createOrderItem = async (order_id: string, product_id: string, quantity: number = 1) => {
     const product = await Product.findByPk(product_id);
@@ -43,7 +44,7 @@ export const orderItem = asyncHandler(async (req: Request, res: Response) => {
     //saving
     await order.save();
     //sending email
-    const summary =await orderSummary(order.id)
+    const summary = await orderSummary(order.id)
     sendOrderConfirmation(user.email, summary);
     pusher.trigger(`${user.id}`, 'notification', {
         notification: summary
@@ -140,4 +141,35 @@ export const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
     });
 
     return res.status(httpStatus.OK).send(new ApiResponse("Order", { orders }));
+});
+
+//user
+export const payForOrder = asyncHandler(async (req, res) => {
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
+        apiVersion: '2025-04-30.basil', // or the latest version you use
+    });
+    const { orderID } = req.params;
+    const order = await Order.findByPk(orderID);
+    if (!order) throw new ApiError(httpStatus.NOT_FOUND, "Order not found");
+    if (order.isPaid) throw new ApiError(httpStatus.CONFLICT, "Already Paid")
+
+    const session = await stripe.checkout.sessions.create({
+        line_items: [
+            {
+                price_data: {
+                    currency: 'usd',
+                    unit_amount: 2000,
+                },
+                quantity: 1,
+            },
+        ],
+        mode: 'payment',
+        success_url: 'http://localhost:5173/success',
+        cancel_url: 'http://localhost:5173/cancel',
+        metadata: {
+            order_id: orderID,
+        },
+    });
+
+    res.status(200).json({ url: session.url });
 });

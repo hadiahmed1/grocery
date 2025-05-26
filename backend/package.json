@@ -50,6 +50,7 @@
     "pusher": "^5.2.0",
     "pusher-js": "^8.4.0",
     "sequelize": "^6.37.7",
+    "stripe": "^18.1.1",
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
