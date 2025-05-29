@@ -9,7 +9,9 @@
     "test": "nodemon --ext ts --exec tsx ./test.ts",
     "lint": "eslint . --ext .ts,.tsx,.js",
     "lint:fix": "eslint . --ext .ts,.tsx,.js --fix",
-    "seed": "nodemon --ext ts --exec tsx ./seed/seeder.ts"
+    "seed": "nodemon --ext ts --exec tsx ./seed/seeder.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
   },
   "repository": {
     "type": "git",
