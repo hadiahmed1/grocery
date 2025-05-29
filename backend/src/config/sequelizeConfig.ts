@@ -1,6 +1,7 @@
 import { Sequelize } from 'sequelize';
+
 const dbConnection = async () => {
-    const sequelize = new Sequelize('groceryDB', 'grocery', process.env.DB_PASSWORD as string, {
+    const sequelize = new Sequelize('groceryDB', 'grocery', 'groceryPassword', {
         host: 'localhost',
         dialect: 'mysql',
         logging: false

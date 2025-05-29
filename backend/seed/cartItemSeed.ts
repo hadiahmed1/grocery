@@ -11,7 +11,7 @@ const cartItemSeed = async () => {
         for (let i = 0; i < itemcount; i++) {
             const cartItem = {
                 user_id: user.id,
-                product_id: products[random % products.length].dataValues.id,
+                product_id: products[random % products.length-1].dataValues.id,
                 count: Math.floor(Math.random() * 10)
             }
             CartItem.build(cartItem).save();

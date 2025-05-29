@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: groceryPassword
+      MYSQL_DATABASE: groceryDB
+      MYSQL_USER: grocery
+      MYSQL_PASSWORD: groceryPassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - fullstack
+
+volumes:
+  mysql-data:
+
+networks:
+  fullstack:
+    external: true
