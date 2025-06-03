@@ -23,13 +23,13 @@ const EditProductForm = () => {
                 }
             } else if (typeof value !== "undefined") {
                 const newValue = String(value);
-                const oldValue = product ? String((product as prod)[key] ?? "") : "";
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const oldValue = product ? String((product as any)[key] ?? "") : "";
 
                 const isChanged = product ? newValue !== oldValue : true;
 
-                if (newValue && isChanged) {
+                if (newValue && isChanged)
                     formData.append(key, newValue);
-                }
             }
         });
 
@@ -39,7 +39,7 @@ const EditProductForm = () => {
                 "http://localhost:3000/product/" + productID,
                 formData,
                 {
-                    withCredentials: true,
+                    withCredentials: true,//cookies
                     headers: { "Content-Type": "multipart/form-data" }
                 }
             );
