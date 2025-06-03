@@ -14,4 +14,4 @@ const seeder = async () => {
     console.log("Seeder Done")
 }
 
-seeder();
+export default seeder;

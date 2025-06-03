@@ -4,11 +4,11 @@ import Address from '../src/models/adress.model';
 import { ProductCreationAttributes } from '../src/types/product.type';
 import { faker } from '@faker-js/faker'
 
-const createProduct = async (id: string) => {
-    await Product.sync({ force: true });
-    const productcount = Math.floor(Math.random() * 5) + 1;//1-5 products
+const createProduct = async (id: string, email: string) => {
+    console.log("seller:>>", email);
     const addresses = await Address.findAll({ where: { user_id: id } });
-    for (let i = 0; i < productcount; i++) {
+    
+    for (let i = 0; i < 5; i++) {
         const product: ProductCreationAttributes = {
             seller_id: id,
             mrp: Math.random() * Math.random() * 99999,
@@ -21,7 +21,9 @@ const createProduct = async (id: string) => {
             stock: Math.random() * 100,
             address_id: addresses[Math.floor(Math.random() * addresses.length)].dataValues.id
         }
-        await Product.build(product).save();
+        const p=Product.build(product);
+        await p.save();
+        console.log("   -",p.id);
     }
 }
 
@@ -30,8 +32,9 @@ const createProduct = async (id: string) => {
 const productSeed = async () => {
     await Product.sync({ force: true });
     const sellers = await User.findAll({ where: { isVerified: true, role: 'seller' } });
+    
     sellers.forEach(async (seller) => {
-        createProduct(seller.id)
+        createProduct(seller.dataValues.id, seller.dataValues.email)
     });
     console.log("Product seed done");
 }
