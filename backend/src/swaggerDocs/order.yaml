@@ -1,0 +1,94 @@
+paths:
+  /order:
+    get:
+      summary: Get all orders placed by the authenticated user
+      tags: [Order]
+      security:
+        - accessTokenCookie: []
+      responses:
+        200:
+          description: List of user's orders
+
+  /order/{id}:
+    get:
+      summary: Get a specific order by ID
+      tags: [Order]
+      security:
+        - accessTokenCookie: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Order ID
+      responses:
+        200:
+          description: Order details
+
+    patch:
+      summary: Cancel an order
+      tags: [Order]
+      security:
+        - accessTokenCookie: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Order ID
+      responses:
+        200:
+          description: Order cancelled
+
+  /order/product:
+    post:
+      summary: Place an order for a single product
+      tags: [Order]
+      security:
+        - accessTokenCookie: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                product_id:
+                  type: string
+                quantity:
+                  type: number
+              required:
+                - product_id
+                - quantity
+      responses:
+        200:
+          description: Order placed for product
+
+  /order/cart:
+    post:
+      summary: Place an order for all items in the cart
+      tags: [Order]
+      security:
+        - accessTokenCookie: []
+      responses:
+        200:
+          description: Cart order placed
+
+  /order/pay/{orderID}:
+    post:
+      summary: Create payment intent for an order
+      tags: [Order]
+      security:
+        - accessTokenCookie: []
+      parameters:
+        - in: path
+          name: orderID
+          required: true
+          schema:
+            type: string
+          description: Order ID to pay for
+      responses:
+        200:
+          description: Payment initiated
