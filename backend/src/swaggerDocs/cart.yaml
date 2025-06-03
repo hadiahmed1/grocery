@@ -1,0 +1,94 @@
+paths:
+  /cart:
+    get:
+      summary: Get all items in the authenticated user's cart
+      tags: [Cart]
+      security:
+        - accessTokenCookie: []
+      responses:
+        200:
+          description: List of cart items
+
+    post:
+      summary: Add a new item to the cart
+      tags: [Cart]
+      security:
+        - accessTokenCookie: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - product_id
+              properties:
+                product_id:
+                  type: string
+                count:
+                  type: number
+                  minimum: 1
+      responses:
+        200:
+          description: Item added to cart
+
+  /cart/{id}:
+    get:
+      summary: Get a specific cart item by ID
+      tags: [Cart]
+      security:
+        - accessTokenCookie: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Cart item ID
+      responses:
+        200:
+          description: Single cart item returned
+
+    patch:
+      summary: Update the quantity of a cart item
+      tags: [Cart]
+      security:
+        - accessTokenCookie: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Cart item ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - count
+              properties:
+                count:
+                  type: number
+                  minimum: 1
+      responses:
+        200:
+          description: Cart item updated
+
+    delete:
+      summary: Delete a cart item
+      tags: [Cart]
+      security:
+        - accessTokenCookie: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Cart item ID
+      responses:
+        200:
+          description: Cart item deleted

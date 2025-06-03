@@ -2,7 +2,8 @@ import swaggerJsdoc from 'swagger-jsdoc';
 import yaml from 'yamljs';
 
 const userDocs = yaml.load('./src/swaggerDocs/user.yaml');
-const addressDocs = yaml.load('./src/swaggerDocs/address.yaml')
+const addressDocs = yaml.load('./src/swaggerDocs/address.yaml');
+const cartDocs = yaml.load('./src/swaggerDocs/cart.yaml');
 
 const swaggerOptions = {
   definition: {
@@ -34,6 +35,7 @@ const swaggerOptions = {
     paths: {
       ...userDocs.paths,
       ...addressDocs.paths,
+      ...cartDocs.paths
     },
   },
   apis: ['./src/routes/*.ts'],
