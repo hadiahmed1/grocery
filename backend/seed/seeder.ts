@@ -6,7 +6,7 @@ import productSeed from './productSeed';
 import cartItemSeed from './cartItemSeed';
 
 const seeder = async () => {
-    await userSeed(10);
+    await userSeed(20);
     await addressSeed();
     await productSeed();
     await cartItemSeed();
