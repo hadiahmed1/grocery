@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import swaggerUi from 'swagger-ui-express';
 
 import userRouter from '../routes/userRoute';
 import productRouter from '../routes/productRoute';
@@ -9,6 +10,7 @@ import addressRouter from "../routes/addressRoute";
 import orderRouter from "../routes/orderRoute";
 import reviewRouter from "../routes/reviewRoute";
 import { updatePaymentStatus } from "../controllers/order.contollers";
+import { swaggerSpec } from "./swaggerConfig";
 
 const app = express();
 
@@ -23,6 +25,8 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 const port = process.env.PORT;
 
 //nested routes
