@@ -1,0 +1,94 @@
+paths:
+  /user/signup:
+    post:
+      summary: Register a new user
+      tags: [User]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - email
+                - user_password
+              properties:
+                username:
+                  type: string
+                  minLength: 3
+                  maxLength: 50
+                email:
+                  type: string
+                  format: email
+                user_password:
+                  type: string
+                  pattern: '^[a-zA-Z0-9]{3,30}$'
+                role:
+                  type: string
+                  enum: [user, seller]
+      responses:
+        201:
+          description: User registered successfully
+        400:
+          description: Validation error
+
+  /user/signin:
+    post:
+      summary: Sign in a user
+      tags: [User]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+      responses:
+        200:
+          description: User signed in successfully
+        400:
+          description: Validation error
+        401:
+          description: Invalid credentials
+  
+  /user:
+    get:
+      summary: Get authenticated user info
+      tags: [User]
+      security:
+        - accessTokenCookie: []
+      responses:
+        200:
+          description: Authenticated user data returned
+
+  /user/verify/{token}:
+    get:
+      summary: Verify a user's email with token
+      tags: [User]
+      parameters:
+        - in: path
+          name: token
+          required: true
+          schema:
+            type: string
+          description: Verification token
+      responses:
+        200:
+          description: User verified successfully
+
+  /user/logout:
+    get:
+      summary: Logout the current user
+      tags: [User]
+      responses:
+        200:
+          description: User logged out

@@ -1,4 +1,7 @@
 import swaggerJsdoc from 'swagger-jsdoc';
+import yaml from 'yamljs';
+
+const userDocs = yaml.load('./src/swaggerDocs/user.yaml');
 
 const swaggerOptions = {
   definition: {
@@ -6,15 +9,30 @@ const swaggerOptions = {
     info: {
       title: 'Grocery API',
       version: '1.0.0',
-      description: 'API documentation for your GroceryApp app'
+      description: 'API documentation for GroceryApp',
     },
-    servers: [
+    components: {
+      securitySchemes: {
+        accessTokenCookie: {
+          type: 'apiKey',
+          in: 'cookie',
+          name: 'accessToken',
+        },
+        verificationTokenCookie: {
+          type: 'apiKey',
+          in: 'cookie',
+          name: 'verificationToken',
+        },
+      },
+    },
+    security: [
       {
-        url: 'http://localhost:3000'
-      }
-    ]
+        accessTokenCookie: [],
+      },
+    ],
+    ...userDocs
   },
-  apis: ['./src/routes/*.ts'], 
+  apis: ['./src/routes/*.ts'],
 };
 
 export const swaggerSpec = swaggerJsdoc(swaggerOptions);
