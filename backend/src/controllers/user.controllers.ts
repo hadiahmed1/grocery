@@ -18,7 +18,7 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
     await user.save();
     //sending verification email
     sendVerificationEmail(req.body.email, user.dataValues.id);
-    return res.status(httpStatus.OK).send(new ApiResponse("User created successfully", { userId: user.dataValues.id }));
+    return res.status(httpStatus.CREATED).send(new ApiResponse("User created successfully", { userId: user.dataValues.id }));
 });
 
 export const verifyUser = asyncHandler(async (req: Request, res: Response) => {
