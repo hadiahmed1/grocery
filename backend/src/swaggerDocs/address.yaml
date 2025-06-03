@@ -1,0 +1,98 @@
+paths:
+  /address:
+    get:
+      summary: Get the authenticated user's address
+      tags: [Address]
+      security:
+        - accessTokenCookie: []
+      responses:
+        200:
+          description: List of user addresses
+
+    post:
+      summary: Create a new address
+      tags: [Address]
+      security:
+        - accessTokenCookie: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - line1
+                - line2
+                - city
+                - state
+                - pincode
+              properties:
+                name:
+                  type: string
+                  maxLength: 50
+                line1:
+                  type: string
+                  maxLength: 50
+                line2:
+                  type: string
+                  maxLength: 50
+                city:
+                  type: string
+                  maxLength: 50
+                state:
+                  type: string
+                  maxLength: 50
+                pincode:
+                  type: string
+                  maxLength: 16
+                landmark:
+                  type: string
+                  maxLength: 50
+      responses:
+        200:
+          description: Address created successfully
+
+  /address/{id}:
+    patch:
+      summary: Edit an existing address
+      tags: [Address]
+      security:
+        - accessTokenCookie: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Address ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  maxLength: 50
+                line1:
+                  type: string
+                  maxLength: 50
+                line2:
+                  type: string
+                  maxLength: 50
+                city:
+                  type: string
+                  maxLength: 50
+                state:
+                  type: string
+                  maxLength: 50
+                pincode:
+                  type: string
+                  maxLength: 16
+                landmark:
+                  type: string
+                  maxLength: 50
+      responses:
+        200:
+          description: Address updated successfully

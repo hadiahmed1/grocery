@@ -2,6 +2,7 @@ import swaggerJsdoc from 'swagger-jsdoc';
 import yaml from 'yamljs';
 
 const userDocs = yaml.load('./src/swaggerDocs/user.yaml');
+const addressDocs = yaml.load('./src/swaggerDocs/address.yaml')
 
 const swaggerOptions = {
   definition: {
@@ -30,7 +31,10 @@ const swaggerOptions = {
         accessTokenCookie: [],
       },
     ],
-    ...userDocs
+    paths: {
+      ...userDocs.paths,
+      ...addressDocs.paths,
+    },
   },
   apis: ['./src/routes/*.ts'],
 };
