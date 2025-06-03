@@ -76,14 +76,15 @@ const ProductCard = ({ product, cartItemId = undefined, isMyProduct = false }: {
                                 </span>
                             </div>
                         </div>
-                        {isMyProduct && <>
-                            <div className="space-y-2">
-                                <span className="text-lg text-gray-400">Stock: {product.stock}</span>
-                            </div>
-                            <div className="space-y-2">
-                                <span className="text-lg text-gray-400">Listed On: {(new Date(product.createdAt)).toISOString()}</span>
-                            </div>
-                        </>}
+                        {isMyProduct && //showing confidential details to Owner
+                            <>
+                                <div className="space-y-2">
+                                    <span className="text-lg text-gray-400">Stock: {product.stock}</span>
+                                </div>
+                                <div className="space-y-2">
+                                    <span className="text-lg text-gray-400">Listed On: {(new Date(product.createdAt)).toISOString()}</span>
+                                </div>
+                            </>}
                         {/*Product Quantity  */}
                         {(!isMyProduct) && <div className="flex items-center space-x-4">
                             <div className="flex items-center border border-gray-700 rounded-lg">
