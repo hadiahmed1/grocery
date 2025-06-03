@@ -82,14 +82,23 @@ export const getMyProducts = asyncHandler(async (req: Request, res: Response) =>
 });
 
 //open
-export const getProducts = asyncHandler(async (_req: Request, res: Response) => {
-    const products = await Product.findAll();//all products
+export const getProducts = asyncHandler(async (req: Request, res: Response) => {
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+    const offset = (page - 1) * limit;
+
+    const { count, rows: products } = await Product.findAndCountAll({ offset, limit });//all products
     const productsWithRating = await Promise.all(products.map(async product => {
         const p = product.dataValues;
         p.rating = await productRating(product.id);
         return p;
     }))
-    return res.status(httpStatus.OK).send(new ApiResponse(products.length + " Products", { products: productsWithRating }));
+    return res.status(httpStatus.OK).send(new ApiResponse(products.length + " Products", {
+        products: productsWithRating,
+        total: count,
+        page,
+        hasMore: (offset + products.length) < count
+    }));
 });
 //open
 export const getProductById = asyncHandler(async (req: Request, res: Response) => {
