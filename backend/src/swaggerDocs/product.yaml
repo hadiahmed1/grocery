@@ -1,0 +1,126 @@
+paths:
+  /product:
+    get:
+      summary: Get all products
+      tags: [Product]
+      responses:
+        200:
+          description: List of products
+
+    post:
+      summary: Create a new product (seller only)
+      tags: [Product]
+      security:
+        - accessTokenCookie: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - name
+                - mrp
+                - address_id
+              properties:
+                photo:
+                  type: string
+                  format: binary
+                name:
+                  type: string
+                mrp:
+                  type: number
+                  minimum: 1
+                discount_percent:
+                  type: number
+                  minimum: 0
+                  maximum: 99.99
+                quantity:
+                  type: number
+                  minimum: 1
+                unit:
+                  type: string
+                  enum: [piece, units, kg, g, mg, lb, ml, l]
+                description:
+                  type: string
+                stock:
+                  type: number
+                  minimum: 1
+                address_id:
+                  type: string
+      responses:
+        200:
+          description: Product created
+
+  /product/{id}:
+    get:
+      summary: Get product by ID
+      tags: [Product]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Product ID
+      responses:
+        200:
+          description: Product details
+
+    patch:
+      summary: Edit a product (seller only)
+      tags: [Product]
+      security:
+        - accessTokenCookie: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Product ID
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                photo:
+                  type: string
+                  format: binary
+                name:
+                  type: string
+                mrp:
+                  type: number
+                  minimum: 1
+                discount_percent:
+                  type: number
+                  minimum: 0
+                  maximum: 99.99
+                quantity:
+                  type: number
+                  minimum: 1
+                unit:
+                  type: string
+                  enum: [piece, units, kg, g, mg, lb, ml, l]
+                description:
+                  type: string
+                stock:
+                  type: number
+                  minimum: 0
+                address_id:
+                  type: string
+      responses:
+        200:
+          description: Product updated
+
+  /product/myproducts:
+    get:
+      summary: Get all products created by the authenticated seller
+      tags: [Product]
+      security:
+        - accessTokenCookie: []
+      responses:
+        200:
+          description: List of seller's products
