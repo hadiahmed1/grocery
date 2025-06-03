@@ -1,0 +1,47 @@
+paths:
+  /review/{id}:
+    post:
+      summary: Add a review for a product
+      tags: [Review]
+      security:
+        - accessTokenCookie: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Product ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - rating
+              properties:
+                rating:
+                  type: number
+                  minimum: 1
+                  maximum: 5
+                review:
+                  type: string
+                  maxLength: 250
+      responses:
+        200:
+          description: Review added
+
+    get:
+      summary: Get reviews for a product
+      tags: [Review]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Product ID
+      responses:
+        200:
+          description: List of reviews

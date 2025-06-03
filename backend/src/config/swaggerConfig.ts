@@ -5,6 +5,8 @@ const userDocs = yaml.load('./src/swaggerDocs/user.yaml');
 const addressDocs = yaml.load('./src/swaggerDocs/address.yaml');
 const cartDocs = yaml.load('./src/swaggerDocs/cart.yaml');
 const orderDocs = yaml.load('./src/swaggerDocs/order.yaml');
+const productDocs = yaml.load('./src/swaggerDocs/product.yaml');
+const reviewDocs = yaml.load('./src/swaggerDocs/review.yaml');
 
 const swaggerOptions = {
   definition: {
@@ -37,7 +39,9 @@ const swaggerOptions = {
       ...userDocs.paths,
       ...addressDocs.paths,
       ...cartDocs.paths,
-      ...orderDocs.paths
+      ...orderDocs.paths,
+      ...productDocs.paths,
+      ...reviewDocs.paths
     },
   },
   apis: ['./src/routes/*.ts'],
