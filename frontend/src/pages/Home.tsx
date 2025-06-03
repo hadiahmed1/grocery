@@ -15,7 +15,7 @@ const Home = () => {
     const lastProductRef = useCallback(
         (node: HTMLDivElement | null) => {
             if (loading) return;
-            if (observer.current) observer.current.disconnect();
+            if (observer.current) observer.current.disconnect();//disconnecting previously observed element
             observer.current = new IntersectionObserver(entries => {
                 if (entries[0].isIntersecting && hasMore) {
                     setPage(prev => prev + 1);
