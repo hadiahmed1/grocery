@@ -9,14 +9,15 @@ type Controller<T extends Request = Request> = (
 
 const asyncHandler = <T extends Request = Request>(fn: Controller<T>) =>
   (req: T, res: Response, next: NextFunction) => {
-    Promise.resolve(fn(req, res, next)).catch(error => {
-      console.error(error);
-      res.status(error.statusCode ||httpStatus.INTERNAL_SERVER_ERROR).json({
-        success: false,
-        message: (error as Error).message,
-        errors: error.errors
+    Promise.resolve(fn(req, res, next))
+      .catch(error => {
+        console.error(error);
+        res.status(error.statusCode || httpStatus.INTERNAL_SERVER_ERROR).json({
+          success: false,
+          message: (error as Error).message,
+          errors: error.errors
+        });
       });
-    });
   };
 
 export default asyncHandler;
