@@ -8,8 +8,6 @@ import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import { OrderContext } from "./OrderContext";
 
-
-
 export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
     const [orderItems, setOrderItems] = useState<OrderAttributes[]>([]);
     const [loading, setLoading] = useState(true);

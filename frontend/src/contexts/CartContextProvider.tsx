@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axiosInstance from "../lib/axiosInstance";
 import useUser from "../hooks/useUser";
 import type CartItemAttributes from "../types/cartItem.type";
@@ -13,7 +13,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     const [error, setError] = useState<string | null>(null);
     const location = useLocation();
     const { user } = useUser();
-    const fetchCart = async () => {
+    const fetchCart = useCallback(async () => {
         if (!user) return;
         setLoading(true);
         try {
@@ -25,7 +25,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         } finally {
             setLoading(false);
         }
-    };
+    },[user]);
     useEffect(() => {
         if (error) toast.error("ERROR:" + error);
     }, [error]);
@@ -33,7 +33,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         if (location.pathname === '/cart')
             fetchCart();
         setError(null);
-    }, [location]);
+    }, [fetchCart, location]);
 
     const addItem = async (product_id: string, count: number = 1) => {
         try {
@@ -55,7 +55,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
             setLoading(true);
             await axiosInstance.delete(`/cart/${id}`);
             toast.success("Item removed from cart")
-            setCartItems((prev) => prev.filter((item) => item.id !== id));
+            setCartItems((prev:CartItemAttributes[]) => prev.filter((item) => item.id !== id));
         } catch (err) {
             console.error("Delete failed:", err);
             setError("Unable to remove Item from cart")

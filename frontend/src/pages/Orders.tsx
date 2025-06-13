@@ -4,7 +4,7 @@ import { useOrder } from "../hooks/useOrder"
 
 const Orders = () => {
     const { orders, refetch } = useOrder();
-    useEffect(() => { refetch() },[])
+    useEffect(() => { refetch() },[refetch])
     return (
         <div className="flow-root px-3">
             <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
