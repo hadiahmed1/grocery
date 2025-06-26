@@ -17,6 +17,16 @@ const Home = () => {
         socket.on('newproduct', (data: ProductAttributes) => {
             setProducts((prev) => [data, ...prev])//adding new product to products
         });
+        socket.on('editedproduct', (data: ProductAttributes) => {
+            console.log(data);
+            //findig product
+            setProducts(products =>
+                products.map(product =>
+                    product.id === data.id ? data : product
+                ));
+        });
+
+
     }, []);
     const lastProductRef = useCallback(
         (node: HTMLDivElement | null) => {
