@@ -46,10 +46,17 @@ export const orderItem = asyncHandler(async (req: Request, res: Response) => {
     await order.save();
     //sending email
     const summary = await orderSummary(order.id)
-    sendOrderConfirmation(user.email, summary);
-    pusher.trigger(`${user.id}`, 'notification', {
-        notification: summary
-    });
+    try {
+        sendOrderConfirmation(user.email, summary);
+        await pusher.trigger(`${user.id}`, 'notification', {
+            notification: summary
+        });
+        
+    } catch (error) {
+        console.log("error while sending notificaion");
+        console.log(error);
+        throw new ApiError(400, "Notification not sent")
+    }
     return res.status(httpStatus.OK).send(new ApiResponse("Item ordered successfully", { order }));
 });
 

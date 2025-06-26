@@ -3,6 +3,7 @@ import User from '../src/models/user.model';
 import Review from '../src/models/review.model';
 
 const ratingSeed = async () => {
+    await Review.sync({force: true})
     const products = await Product.findAll();
     const users = await User.findAll();
 
