@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import swaggerUi from 'swagger-ui-express';
-
+import { createServer } from "node:http";
 import userRouter from '../routes/userRoute';
 import productRouter from '../routes/productRoute';
 import cartRouter from '../routes/cartRoute';
@@ -27,8 +27,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-const port = process.env.PORT;
-
 //nested routes
 app.use('/user', userRouter);
 app.use('/product', productRouter);
@@ -37,8 +35,11 @@ app.use('/address', addressRouter);
 app.use('/order', orderRouter);
 app.use('/review', reviewRouter);
 
-app.listen(port, () => {
+
+const server = createServer(app);
+const port = process.env.PORT;
+
+server.listen(port, () => {
   console.log(`Example app listening on port http://localhost:${port}`)
 });
-
-export default app;
+export default server;
