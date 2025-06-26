@@ -8,7 +8,7 @@ import httpStatus from '../constants/httpStatusCode';
 import Address from '../models/adress.model';
 import uploadToCloudinary from '../helper/uploadToCloudinary';
 import productRating from '../helper/productRating';
-import { } from 'multer'
+import io from '../config/expressConfig';
 
 //seller
 export const createProduct = asyncHandler(async (req: Request, res: Response) => {
@@ -39,6 +39,8 @@ export const createProduct = asyncHandler(async (req: Request, res: Response) =>
     //creating new product
     const newProduct = Product.build(product);
     await newProduct.save();
+    //emitting event
+    io.emit("newproduct", newProduct );
     return res.status(httpStatus.OK).send(new ApiResponse("Product created successfully", { product: newProduct }));
 });
 
