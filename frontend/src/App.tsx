@@ -20,16 +20,34 @@ import AddProductForm from './components/AddProductForm'
 import EditProductForm from './components/EditProductForm'
 import ReviewForm from './components/ReviewForm'
 import axiosInstance from './lib/axiosInstance'
+import { socket } from './socket'
 
 function App() {
+
+  useEffect(() => {
+    function onConnect() {
+      console.log('✅ Socket connected:', socket.id);
+    }
+
+    function onDisconnect() {
+      console.log('❌ Socket disconnected');
+    }
+
+    socket.on('connect', onConnect);
+    socket.on('disconnect', onDisconnect);
+
+    // Clean up
+    return () => {
+      socket.off('connect', onConnect);
+      socket.off('disconnect', onDisconnect);
+    };
+  }, []);
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        console.log("fetching user ..");
-        
         const res = await axiosInstance.get('user');
         console.log(res);
-        
         setUser(res.data?.data?.user || null);
       } catch (error) {
         console.log(error);
