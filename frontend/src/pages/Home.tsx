@@ -2,10 +2,16 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import type ProductAttributes from "../types/product.type";
 import axiosInstance from "../lib/axiosInstance";
 import ProductCard from "../components/ProductCard";
+import { socket } from "../socket";
 
 const LIMIT = 10;
 
 const Home = () => {
+    useEffect(() => {
+        socket.on('newproduct', (data) => {
+            console.log("New Product=",data);
+        });
+    }, []);
     const [products, setProducts] = useState<ProductAttributes[]>([]);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
@@ -43,7 +49,7 @@ const Home = () => {
 
     useEffect(() => {
         getProducts(page);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);
 
     return (
