@@ -28,14 +28,11 @@ function App() {
     function onConnect() {
       console.log('✅ Socket connected:', socket.id);
     }
-
     function onDisconnect() {
       console.log('❌ Socket disconnected');
     }
-
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);
-
     // Clean up
     return () => {
       socket.off('connect', onConnect);
@@ -54,7 +51,7 @@ function App() {
       }
     }
     fetchUser();
-  },[])
+  }, [])
   const [user, setUser] = useState<UserAttributes | null>(null);
   return (
     <UserContext.Provider value={{ user, setUser }}>
