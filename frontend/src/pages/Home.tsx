@@ -33,7 +33,8 @@ const Home = () => {
                 params: { page: currentPage, limit: LIMIT }
             });
             const newProducts = res.data.data.products as ProductAttributes[];
-            setProducts(prev => [...prev, ...newProducts]);
+            if (page === 1) setProducts([...newProducts]);
+            else setProducts(prev => [...prev, ...newProducts]);
             setHasMore(res.data.data.hasMore);
         } finally {
             setLoading(false);

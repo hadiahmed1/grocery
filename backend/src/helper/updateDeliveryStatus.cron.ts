@@ -7,7 +7,8 @@ import cron from 'node-cron';
 cron.schedule('* * * * *', async () => {
     try {
         const now = new Date();
-        const ordersToUpdate = await Order.findAll(
+        // const ordersToUpdate = 
+        await Order.findAll(
             {
                 where: {
                     status: 'ordered',
