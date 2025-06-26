@@ -7,17 +7,17 @@ import { socket } from "../socket";
 const LIMIT = 10;
 
 const Home = () => {
-    useEffect(() => {
-        socket.on('newproduct', (data) => {
-            console.log("New Product=",data);
-        });
-    }, []);
     const [products, setProducts] = useState<ProductAttributes[]>([]);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const [loading, setLoading] = useState(false);
     const observer = useRef<IntersectionObserver | null>(null);
 
+    useEffect(() => {
+        socket.on('newproduct', (data: ProductAttributes) => {
+            setProducts((prev) => [data, ...prev])//adding new product to products
+        });
+    }, []);
     const lastProductRef = useCallback(
         (node: HTMLDivElement | null) => {
             if (loading) return;
