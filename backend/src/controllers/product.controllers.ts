@@ -40,7 +40,7 @@ export const createProduct = asyncHandler(async (req: Request, res: Response) =>
     const newProduct = Product.build(product);
     await newProduct.save();
     //emitting event
-    io.emit("newproduct", newProduct );
+    io.emit("newproduct", newProduct);
     return res.status(httpStatus.OK).send(new ApiResponse("Product created successfully", { product: newProduct }));
 });
 
@@ -74,6 +74,7 @@ export const editProductById = asyncHandler(async (req: Request, res: Response) 
     //editing Product
     product.set(req.body);
     product.save();
+    io.emit("editedproduct", product);
     return res.status(httpStatus.OK).send(new ApiResponse("Product edited successfully", { product }));
 });
 //seller
